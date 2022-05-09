@@ -8,19 +8,25 @@
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
 ;;
-;; Some useful functions to help build Frimacs.
+;; Some useful functions to help build and maintain the frimacs
+;; package.
 ;;
 ;; This file is intentionally not loaded as part of the frimacs
 ;; package.  Instead it is suggested to use
 ;; `emacs-lisp-byte-compile-and-load' on this file to access these
-;; functions.
+;; functions.  This will require that frimacs has been loaded first.
+;; If this is not the case and you do not want to install the frimacs
+;; package (or cannot because it doesn't exist yet), use:-
+;;
+;;   (load-file "/path/to/frimacs.el")
+;;
+;; first from an IELM buffer.
 ;;
 (require 'subr-x)
 (require 'package)
 (require 'package-x)
 
-(require 'frimacs-base)
-(require 'frimacs-process-mode)
+(require 'frimacs)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Data file creation routines
@@ -130,7 +136,7 @@ TYPE should be either :package, :domain or :category."
 
 (defvar frimacs-build-frimacs-filespecs
   '("LICENCE" "*.el" ("data" "data/*.el") ("themes" "themes/*.el")
-    (:exclude "frimacs-build-utils.el" "frimacs-company.el" "ob-fricas.el")))
+    (:exclude "frimacs-build-utils.el")))
 
 (defvar frimacs-build-frimacs-company-filespecs
   '("LICENCE" "frimacs-company.el"))
@@ -226,7 +232,7 @@ of those specified in the `package-archives' variable."
   (let* ((pkg-name "ob-fricas")
          (pkg-deps (list (list 'frimacs pkg-ver)))
          (pkg-defn `(define-package ,pkg-name ,pkg-ver
-                      "A Frimacs backend for org-babel."
+                      "A FriCAS backend for org-babel."
                       ',pkg-deps))
          (pkg-filespecs (cons (concat pkg-name "-pkg.el")
                               frimacs-build-ob-fricas-filespecs))

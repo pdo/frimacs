@@ -83,7 +83,7 @@ is chosen."
       (kill-buffer help-buffer))))
 
 (define-frimacs-selector-function ?r "Switch to FriCAS REPL buffer"
-  (let ((buf (get-buffer frimacs-process-buffer-name)))
+  (let ((buf (get-buffer frimacs-process-repl-buffer-name)))
     (if buf
         (switch-to-buffer buf)
       (message "FriCAS REPL not available, try M-x run-fricas"))))

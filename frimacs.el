@@ -22,20 +22,15 @@
 ;;   2. frimacs-help-mode: for displaying help information about the
 ;;      FriCAS system.
   
-;;   3. frimacs-input-mode: for editing a .input (FriCAS script) file.
+;;   3. frimacs-input-mode: for editing FriCAS script (.input) files.
 
 ;;   4. frimacs-spad-mode: for editing FriCAS library code written in
 ;;      the SPAD language.
 
-;; The main features of these modes (so far) are syntax highlighting
-;; to display package, domain & category names (and their
-;; abbreviations) in distinct colours, and to give quick access to
-;; popup buffers displaying summary information about these types and
-;; their operations.  The syntax highlighting feature allows to see
-;; at a glance which aspect of the type system we are concerned with
-;; (domains or categories), and the popup buffer feature allows to
-;; examine (and re-examine) these types without interrupting the
-;; workflow (i.e. interaction in the FriCAS REPL).
+;; These modes enable syntax highlighting to display package, domain &
+;; category names (and their abbreviations) in distinct colours, and
+;; give quick access to popup buffers displaying summary information
+;; about these types and their operations.
 
 ;; Once the package is installed, files ending in .input, and .spad
 ;; are put into the appropriate mode, and there is an "M-x run-fricas"
@@ -43,13 +38,14 @@
 ;; into the Frimacs menu that appears in these buffers to discover
 ;; further capabilities of the system.
 
-;; Note: this package (frimacs) can be considered to be the successor
-;; to the axiom-environment package.  Currently frimacs offers
-;; essentially the same functionality as axiom-environment did, but
-;; with all function and variable names changed.  This has been done
-;; in a fit of honesty, to acknowledge the fact that all development
-;; has been done with FriCAS from day one, and that it should be
-;; FriCAS that takes centre stage in future developments.
+;; Note: this Emacs package (frimacs) can be considered to be the
+;; successor to the axiom-environment package.  Currently frimacs
+;; offers essentially the same functionality as axiom-environment did,
+;; but with all function and variable names changed appropriately.
+;; This has been done in a fit of honesty, to acknowledge the fact
+;; that nearly all development has been done with FriCAS from day one,
+;; and that it should be FriCAS that takes centre stage in future
+;; developments.
 
 ;;; Code:
 
@@ -64,6 +60,8 @@
 (require 'frimacs-boot-mode)
 (require 'frimacs-buffer-menu)
 (require 'frimacs-selector)
+(require 'frimacs-company)
+(require 'ob-fricas)
 
 ;; Automatically put .input, .spad and .boot files into the correct major mode.
 ;;;###autoload

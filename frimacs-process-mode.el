@@ -70,6 +70,11 @@ file."
   :type 'string
   :group 'frimacs)
 
+(defcustom frimacs-process-popup-buffer-name-root "FriCAS"
+  "Starting text of name used by popup query buffers."
+  :type 'string
+  :group 'frimacs)
+
 (defcustom frimacs-process-webview-url "http://fricas.github.io/api/"
   "The base URL for SPAD constructor documentation."
   :type 'string
@@ -534,7 +539,8 @@ buffer, otherwise do not display it."
 
 (defun frimacs-process-constructor-buffer-name (name-or-abbrev)
   (let ((ctype (car (frimacs-process-constructor-type name-or-abbrev))))
-    (format "*FriCAS %s: %s*"
+    (format "*%s %s: %s*"
+            frimacs-process-popup-buffer-name-root
             (capitalize (cl-subseq (symbol-name ctype) 1))
             (cond ((eq ctype :package)
                    (frimacs-process-package-name name-or-abbrev))
@@ -544,6 +550,12 @@ buffer, otherwise do not display it."
                    (frimacs-process-category-name name-or-abbrev))
                   (t
                    name-or-abbrev)))))
+
+(defun frimacs-process-operation-buffer-name (operation-name)
+  (format "*%s %s: %s*"
+          frimacs-process-popup-buffer-name-root
+          "Operation"
+          operation-name))
 
 (defun frimacs-process-display-thing ()
   (interactive)
@@ -694,7 +706,7 @@ Interactively, FORCE-UPDATE can be set with a prefix argument."
   (if (not (get-buffer frimacs-process-repl-buffer-name))
       (progn (message frimacs-process-not-running-message) nil)
     (unless (equal "" operation-name)
-      (let ((bufname (format "*FriCAS Operation: %s*" operation-name)))
+      (let ((bufname (frimacs-process-operation-buffer-name operation-name)))
         (when (or (not (get-buffer bufname)) force-update)
           (with-current-buffer (get-buffer-create bufname)
             (setq buffer-read-only nil)
@@ -879,7 +891,7 @@ variable `frimacs-process-webview-url'."
   (if (or (frimacs-process-is-command-line)
           (eql (char-syntax (char-before)) ?w))
       (frimacs-process-interactive-complete)
-    (indent-relative-maybe)))
+    (indent-relative-first-indent-point)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; frimacs-process-mode -- derived from COMINT mode
