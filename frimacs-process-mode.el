@@ -230,8 +230,8 @@ prompt in output to OUTPUT-BUFFER."
 (defun frimacs-process-sanitize-redirected-output (buffer)
   "Clean up redirected command's output text.
 
-Remove 'erase' characters and the characters they erase from the
-first line of output.  This is necessary when FriCAS is run with
+Remove 'erase' characters and the characters they erase from all
+lines of output.  This is necessary when FriCAS is run with
 'sman' enabled."
   (with-current-buffer buffer
     (save-excursion
@@ -243,13 +243,11 @@ first line of output.  This is necessary when FriCAS is run with
                  (delete-char +1)
                  (when (> (point) (point-min))
                    (delete-char -1)))
-                ((eql (char-after) ?\n)
-                 (setq done t))
                 (t
                  (goto-char (1+ (point))))))))))
 
 (defun frimacs-process-get-old-input ()
-  "An Frimacs-specific replacement for `comint-get-old-input'.
+  "A Frimacs-specific replacement for `comint-get-old-input'.
 
 Return the concatenation of the current line and all subsequent
 continuation-lines (underscores escape new lines)."

@@ -112,7 +112,7 @@
   ;;(message "org-babel-fricas-initiate-session\n %S\n %S" session params)
   (unless (string= session "none")
     (let ((session-name (org-babel-fricas--starify-name session)))
-      (let ((frimacs-process-buffer-name session-name)) ; dynamic binding
+      (let ((frimacs-process-repl-buffer-name session-name)) ; dynamic binding
         (if (org-babel-comint-buffer-livep session-name)
             session-name
           (frimacs-process-start frimacs-process-program))))))
@@ -170,7 +170,7 @@ This function is called by `org-babel-execute-src-block'."
     (with-temp-buffer
       (insert (org-babel-expand-body:fricas body params))
       (write-region (point-min) (point-max) tmp-filename))
-    (let ((frimacs-process-buffer-name session)) ; dynamic binding
+    (let ((frimacs-process-repl-buffer-name session)) ; dynamic binding
       (with-frimacs-process-query-buffer
        (frimacs-process-redirect-send-command
         (if show-input
@@ -195,7 +195,7 @@ This function is called by `org-babel-execute-src-block'."
          (show-input (and (not results-value)
                           (equal (cdr (assoc :show-input params)) "yes")))
          (lines (split-string (org-babel-expand-body:fricas body params) "\n"))
-         (frimacs-process-buffer-name session)) ; dynamic binding
+         (frimacs-process-repl-buffer-name session)) ; dynamic binding
     (with-frimacs-process-query-buffer
      (dolist (line lines)
        (when results-value

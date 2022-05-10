@@ -5,8 +5,6 @@
 ;; Author: Paul Onions <paul.onions@acm.org>
 ;; Keywords: FriCAS
 
-;; Package-Requires: ((emacs "24.2"))
-
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
 

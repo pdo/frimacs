@@ -1,0 +1,2 @@
+;;;###autoload
+(require 'ob-fricas)
