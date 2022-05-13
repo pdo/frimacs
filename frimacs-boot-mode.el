@@ -46,7 +46,7 @@
     (modify-syntax-entry ?\{ "(}" table)
     (modify-syntax-entry ?\} "){" table)
     table)
-  "The frimacs-boot-mode syntax table.")
+  "The `frimacs-boot-mode' syntax table.")
 
 (defvar frimacs-boot-keyword-names
   (list "and" "by" "case" "cross" "else" "for" "if" "in" "is" "isnt" "of"
@@ -65,10 +65,10 @@
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map frimacs-common-keymap)
     map)
-  "The frimacs-boot-mode local keymap.")
+  "The `frimacs-boot-mode' local keymap.")
 
 (defvar frimacs-boot-mode-hook nil
-  "Hook for customizing frimacs-boot-mode.")
+  "Hook for customizing `frimacs-boot-mode'.")
 
 (defvar frimacs-boot-syntax-propertize-fn
   (syntax-propertize-rules

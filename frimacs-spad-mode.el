@@ -24,13 +24,13 @@
   :group 'frimacs)
 
 (defcustom frimacs-spad-indentation-step 2
-  "Indentation step to use in frimacs-spad-mode buffers."
+  "Indentation step to use in `frimacs-spad-mode' buffers."
   :type 'integer
   :group 'frimacs)
 
 (defvar frimacs-spad-mode-syntax-table
   (copy-syntax-table frimacs-common-syntax-table)
-  "The frimacs-spad-mode syntax table.")
+  "The `frimacs-spad-mode' syntax table.")
 
 (defvar frimacs-spad-doc-comment-regexp
   "\\+\\+.*$"
@@ -63,18 +63,20 @@
   (let ((map (make-sparse-keymap)))
     (set-keymap-parent map frimacs-common-keymap)
     map)
-  "The frimacs-spad-mode local keymap.")
+  "The `frimacs-spad-mode' local keymap.")
 
 (defvar frimacs-spad-mode-hook nil
-  "Hook for customizing frimacs-spad-mode.")
+  "Hook for customizing `frimacs-spad-mode'.")
 
 (defun frimacs-spad-complete-symbol ()
+  "Attempt to complete the FriCAS symbol at point."
   (and (looking-back "[[:word:]]+" nil t)
        (list (match-beginning 0)
              (match-end 0)
              frimacs-standard-names)))
 
 (defun frimacs-spad-interactive-complete ()
+  "Use `company-complete' if available to complete symbol at point."
   (interactive)
   (if (and (boundp 'company-mode) company-mode)
       (company-complete)
@@ -85,6 +87,7 @@
   "Increase next line's indentation level if matched.")
 
 (defun frimacs-spad-indent-line ()
+  "Indent current line."
   (if (eql (char-syntax (char-before)) ?w)
       (frimacs-spad-interactive-complete)
     (let ((computed-indent (+ (frimacs-find-previous-indent)
@@ -97,6 +100,7 @@
         (frimacs-set-current-indent (frimacs-find-previous-indent (current-column)))))))
 
 (defun frimacs-spad-syntax-propertize (start end)
+  "Apply appropriate text properties to buffer between START and END."
   ;; Highlight operation names
   (remove-text-properties start end '(font-lock-face nil))
   (goto-char start)

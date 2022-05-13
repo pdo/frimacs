@@ -16,7 +16,7 @@
 (require 'comint)
 
 (defcustom frimacs-process-repl-buffer-name "*FriCAS REPL*"
-  "Default frimacs-process-mode buffer name.
+  "Default `frimacs-process-mode' buffer name.
 
 Must begin and end with an asterisk."
   :type 'string
@@ -133,7 +133,7 @@ No need to change it if `mml2svg' inside your PATH."
 
 (defvar frimacs-process-mode-syntax-table
   (copy-syntax-table frimacs-common-syntax-table)
-  "The frimacs-process-mode syntax table.")
+  "The `frimacs-process-mode' syntax table.")
 
 (defvar frimacs-process-mode-map
   (let ((map (copy-keymap frimacs-common-keymap)))
@@ -149,12 +149,13 @@ No need to change it if `mml2svg' inside your PATH."
 ;; Utility macros
 ;;
 (defmacro with-frimacs-process-query-buffer (&rest body)
-  "Set current-buffer to a query result buffer, with dynamic extent.
+  "Set `current-buffer' to a query result buffer, with dynamic extent.
 
 Use this instead of `with-temp-buffer' so that the buffer can be
 easily examined when things go wrong.  The buffer switched to is
-actually the buffer called `frimacs-process-query-buffer-name', which is
-cleared when the dynamic extent of this form is entered.
+actually the buffer called `frimacs-process-query-buffer-name',
+which is cleared when the dynamic extent of this form is entered,
+before the BODY forms are evaluated.
 
 IMPORTANT NOTE: Unlike `with-temp-buffer', this means that nested
 calls are NOT ALLOWED."
@@ -170,7 +171,7 @@ calls are NOT ALLOWED."
   "Send COMMAND, a string, to FriCAS.
 
 The COMMAND and its output are inserted in the FriCAS REPL buffer
-at the current process-mark, which may be before the end of the
+at the current `process-mark', which may be before the end of the
 buffer if the user is part-way through editing the next command."
   (with-current-buffer frimacs-process-repl-buffer-name
     (let ((proc (get-buffer-process (current-buffer)))
@@ -228,7 +229,7 @@ prompt in output to OUTPUT-BUFFER."
         (frimacs-process-insert-command "")))))
 
 (defun frimacs-process-sanitize-redirected-output (buffer)
-  "Clean up redirected command's output text.
+  "Clean up redirected command's output text in BUFFER.
 
 Remove 'erase' characters and the characters they erase from all
 lines of output.  This is necessary when FriCAS is run with
@@ -256,9 +257,9 @@ continuation-lines (underscores escape new lines)."
 
 ;;;###autoload
 (defun frimacs-process-find-constructor-source (name-or-abbrev)
-  "Attempt to find the SPAD source for the given constructor.
+  "Attempt to find the SPAD source for the given NAME-OR-ABBREV constructor.
 
-Invoke a grep shell-command looking in the directories specified by
+Invoke a grep `shell-command' looking in the directories specified by
 `frimacs-process-spad-source-dirs'.  Return a list containing
 a filename and a line number."
   (let ((filename "")
@@ -284,7 +285,7 @@ a filename and a line number."
   "Force update of buffer-local variable `default-directory'.
 
 Also return the directory as a string.  If NO-MSG is non-nil then
-don't display the default-directory in a message."
+don't display the `default-directory' in a message."
   (interactive)
   (let ((dirname nil))
     (with-frimacs-process-query-buffer
@@ -308,7 +309,9 @@ don't display the default-directory in a message."
 ;; Evaluating a string
 ;;
 (defun frimacs-process-eval-string (str &optional no-display)
-  "Evaluate the given string in FriCAS."
+  "Evaluate the given string, STR, in FriCAS.
+
+If NO-DISPLAY is non-nil don't display the FriCAS buffer."
   (if (null (get-buffer frimacs-process-repl-buffer-name))
       (message frimacs-process-not-running-message)
     (unless no-display
@@ -322,13 +325,17 @@ don't display the default-directory in a message."
 ;;
 ;;;###autoload
 (defun frimacs-process-eval-region (start end &optional no-display)
-  "Evaluate the given region in FriCAS."
+  "Evaluate the given region (between START and END) in FriCAS.
+
+If NO-DISPLAY is non-nil don't display the FriCAS buffer."
   (interactive "r\nP")
   (frimacs-process-eval-string (buffer-substring-no-properties start end) no-display))
 
 ;;;###autoload
 (defun frimacs-process-read-region (start end &optional no-display)
-  "Copy region into a temporary file and )read it."
+  "Copy region between START and END into a temporary file and )read it.
+
+If NO-DISPLAY is non-nil don't display the FriCAS buffer."
   (interactive "r\nP")
   (if (null (get-buffer frimacs-process-repl-buffer-name))
       (message frimacs-process-not-running-message)
@@ -341,6 +348,9 @@ don't display the default-directory in a message."
       (frimacs-process-insert-command (format ")read %s" tmp-filename)))))
 
 (defun frimacs-process-read-pile (&optional no-display)
+  "Read the current pile into FriCAS.
+
+If NO-DISPLAY is non-nil don't display the FriCAS buffer."
   (interactive "P")
   (let ((start (point))
         (end (point)))
@@ -442,42 +452,49 @@ buffer, otherwise do not display it."
 ;; Browsing/inspection utility functions
 ;;
 (defun frimacs-process-package-name (name-or-abbrev)
+  "Convert NAME-OR-ABBREV to a package name, if possible."
   (let ((rslt (assoc name-or-abbrev frimacs-standard-package-info)))
     (if rslt
         (cdr rslt)
       name-or-abbrev)))
 
 (defun frimacs-process-package-abbrev (name-or-abbrev)
+  "Convert NAME-OR-ABBREV to a package abbreviation, if possible."
   (let ((rslt (rassoc name-or-abbrev frimacs-standard-package-info)))
     (if rslt
         (car rslt)
       name-or-abbrev)))
 
 (defun frimacs-process-domain-name (name-or-abbrev)
+  "Convert NAME-OR-ABBREV to a domain name, if possible."
   (let ((rslt (assoc name-or-abbrev frimacs-standard-domain-info)))
     (if rslt
         (cdr rslt)
       name-or-abbrev)))
 
 (defun frimacs-process-domain-abbrev (name-or-abbrev)
+  "Convert NAME-OR-ABBREV to a domain abbreviation, if possible."
   (let ((rslt (rassoc name-or-abbrev frimacs-standard-domain-info)))
     (if rslt
         (car rslt)
       name-or-abbrev)))
 
 (defun frimacs-process-category-name (name-or-abbrev)
+  "Convert NAME-OR-ABBREV to a category name, if possible."
   (let ((rslt (assoc name-or-abbrev frimacs-standard-category-info)))
     (if rslt
         (cdr rslt)
       name-or-abbrev)))
 
 (defun frimacs-process-category-abbrev (name-or-abbrev)
+  "Convert NAME-OR-ABBREV to a category abbreviation, if possible."
   (let ((rslt (rassoc name-or-abbrev frimacs-standard-category-info)))
     (if rslt
         (car rslt)
       name-or-abbrev)))
 
 (defun frimacs-process-constructor-name (name-or-abbrev)
+  "Convert NAME-OR-ABBREV to a constructor name, if possible."
   (let ((rslt (or (assoc name-or-abbrev frimacs-standard-package-info)
                   (assoc name-or-abbrev frimacs-standard-domain-info)
                   (assoc name-or-abbrev frimacs-standard-category-info))))
@@ -486,6 +503,7 @@ buffer, otherwise do not display it."
       name-or-abbrev)))
 
 (defun frimacs-process-constructor-abbrev (name-or-abbrev)
+  "Convert NAME-OR-ABBREV to a constructor abbreviation, if possible."
   (let ((rslt (or (rassoc name-or-abbrev frimacs-standard-package-info)
                   (rassoc name-or-abbrev frimacs-standard-domain-info)
                   (rassoc name-or-abbrev frimacs-standard-category-info))))
@@ -494,32 +512,35 @@ buffer, otherwise do not display it."
       name-or-abbrev)))
 
 (defun frimacs-process-verify-package-name-or-abbrev (name-or-abbrev)
-  "Return package name if valid name or abbreviation, or nil otherwise."
+  "Return package name if NAME-OR-ABBREV is valid, or nil otherwise."
   (let ((fquery (assoc name-or-abbrev frimacs-standard-package-info))
         (rquery (rassoc name-or-abbrev frimacs-standard-package-info)))
     (or (cdr fquery) (cdr rquery))))
 
 (defun frimacs-process-verify-domain-name-or-abbrev (name-or-abbrev)
-  "Return domain name if valid name or abbreviation given, or nil otherwise."
+  "Return domain name if NAME-OR-ABBREV is valid, or nil otherwise."
   (let ((fquery (assoc name-or-abbrev frimacs-standard-domain-info))
         (rquery (rassoc name-or-abbrev frimacs-standard-domain-info)))
     (or (cdr fquery) (cdr rquery))))
 
 (defun frimacs-process-verify-category-name-or-abbrev (name-or-abbrev)
-  "Return category name if valid name or abbreviation given, or nil otherwise."
+  "Return category name if NAME-OR-ABBREV is valid, or nil otherwise."
   (let ((fquery (assoc name-or-abbrev frimacs-standard-category-info))
         (rquery (rassoc name-or-abbrev frimacs-standard-category-info)))
     (or (cdr fquery) (cdr rquery))))
 
 (defun frimacs-process-verify-constructor-name-or-abbrev (name-or-abbrev)
+  "Return constructor name if NAME-OR-ABBREV is valid, or nil otherwise."
   (or (frimacs-process-verify-package-name-or-abbrev name-or-abbrev)
       (frimacs-process-verify-domain-name-or-abbrev name-or-abbrev)
       (frimacs-process-verify-category-name-or-abbrev name-or-abbrev)))
 
 (defun frimacs-process-verify-operation-name (name)
+  "Verify NAME is a valid operation name."
   (car (member name frimacs-standard-operation-info)))
 
 (defun frimacs-process-constructor-type (name-or-abbrev)
+  "Get constructor type of NAME-OR-ABBREV."
   (cond ((member name-or-abbrev frimacs-standard-package-names)
          (cons :package :name))
         ((member name-or-abbrev frimacs-standard-package-abbreviations)
@@ -536,6 +557,7 @@ buffer, otherwise do not display it."
          (cons :constructor :unknown))))
 
 (defun frimacs-process-constructor-buffer-name (name-or-abbrev)
+  "Generate help buffer name for constructor NAME-OR-ABBREV."
   (let ((ctype (car (frimacs-process-constructor-type name-or-abbrev))))
     (format "*%s %s: %s*"
             frimacs-process-popup-buffer-name-root
@@ -550,12 +572,14 @@ buffer, otherwise do not display it."
                    name-or-abbrev)))))
 
 (defun frimacs-process-operation-buffer-name (operation-name)
+  "Generate help buffer name for given OPERATION-NAME."
   (format "*%s %s: %s*"
           frimacs-process-popup-buffer-name-root
           "Operation"
           operation-name))
 
 (defun frimacs-process-display-thing ()
+  "Display help buffer for thing at point."
   (interactive)
   (let ((name (thing-at-point 'word)))
     (if (not (get-buffer frimacs-process-repl-buffer-name))
@@ -574,6 +598,7 @@ buffer, otherwise do not display it."
   "Keymap for clickable items in a Frimacs-Help buffer.")
 
 (defun frimacs-process-make-clickable (begin end tooltip-text)
+  "Make region between BEGIN and END clickable, showing TOOLTIP-TEXT."
   (add-text-properties begin end
                        (list 'mouse-face 'highlight
                              'help-echo tooltip-text
@@ -581,6 +606,7 @@ buffer, otherwise do not display it."
                              'follow-link 'mouse-face)))
 
 (defun frimacs-process-make-all-clickables ()
+  "Make all clickable regions in current buffer."
   (save-excursion
     (goto-char (point-min))
     (while (re-search-forward "[[:word:]]+" nil t)
@@ -600,7 +626,9 @@ buffer, otherwise do not display it."
           (frimacs-process-make-clickable (match-beginning 0) (match-end 0) (cdr info)))))))
 
 (defun frimacs-process-document-constructor (name-or-abbrev &optional force-update)
-  "Construct a buffer containing documentation for NAME-OR-ABBREV."
+  "Construct a buffer containing documentation for NAME-OR-ABBREV.
+
+If FORCE-UPDATE is non-nil then update any previously generated buffer."
   (if (not (get-buffer frimacs-process-repl-buffer-name))
       (progn (message frimacs-process-not-running-message) nil)
     (unless (equal "" name-or-abbrev)
@@ -700,7 +728,9 @@ Interactively, FORCE-UPDATE can be set with a prefix argument."
   (frimacs-process-show-constructor name-or-abbrev force-update))
 
 (defun frimacs-process-document-operation (operation-name &optional force-update)
-  "Create a buffer containing documentation for OPERATION-NAME."
+  "Create a buffer containing documentation for OPERATION-NAME.
+
+If FORCE-UPDATE is non-nil then update any previously generated buffer."
   (if (not (get-buffer frimacs-process-repl-buffer-name))
       (progn (message frimacs-process-not-running-message) nil)
     (unless (equal "" operation-name)
@@ -807,6 +837,9 @@ variable `frimacs-process-webview-url'."
 ;; Auto-completion functions
 ;;
 (defun frimacs-process-list-filenames (dir &optional filter)
+  "List all filenames in DIR.
+
+Optionally FILTER may be set to `:dirs' or `:files'."
   (with-current-buffer frimacs-process-repl-buffer-name
     (let* ((absolute-dir (cond ((null dir)
                                 default-directory)
@@ -829,6 +862,9 @@ variable `frimacs-process-webview-url'."
              (append subdirs subfiles))))))
 
 (defun frimacs-process-complete-command-filename (&optional filter)
+  "Complete the symbol at point as a filename.
+
+Optionally FILTER may be set to `:dirs' or `:files'."
   (let ((partial-start nil)
         (partial-end nil)
         (line-end nil))
@@ -850,6 +886,7 @@ variable `frimacs-process-webview-url'."
                 (frimacs-process-list-filenames dir-path filter)))))))
 
 (defun frimacs-process-complete-command-line ()
+  "Attempt to complete a FriCAS command (e.g. \")cd <dirname>\")."
   (let ((filter nil))
     (save-excursion
       (beginning-of-line)
@@ -866,6 +903,7 @@ variable `frimacs-process-webview-url'."
     (and filter (frimacs-process-complete-command-filename filter))))
 
 (defun frimacs-process-complete-symbol ()
+  "Attempt to complete the FriCAS symbol at point."
   (and (looking-back "[[:word:]]+" nil t)
        (list (match-beginning 0)
              (match-end 0)
@@ -875,17 +913,20 @@ variable `frimacs-process-webview-url'."
 ;; Indenting functions
 ;;
 (defun frimacs-process-is-command-line ()
-  (save-excursion     
+  "Return non-nil if current line is a FriCAS command line."
+  (save-excursion
     (beginning-of-line)
     (looking-at "[[:blank:]]*)[[:word:]]+[[:blank:]]+")))
 
 (defun frimacs-process-interactive-complete ()
+  "Use `company-complete' if available to complete symbol at point."
   (interactive)
   (if (and (boundp 'company-mode) company-mode)
       (company-complete)
     (complete-symbol nil)))
 
 (defun frimacs-process-indent-line ()
+  "Indent current line."
   (if (or (frimacs-process-is-command-line)
           (eql (char-syntax (char-before)) ?w))
       (frimacs-process-interactive-complete)
@@ -953,7 +994,7 @@ variable `frimacs-process-webview-url'."
       (sit-for 1))))
 
 (defun frimacs-process-start (process-cmd)
-  "Start FriCAS in a buffer.
+  "Start FriCAS in a buffer using the command given by PROCESS-CMD.
 
 The name of the buffer is given by variable
 `frimacs-process-repl-buffer-name', and uses major mode

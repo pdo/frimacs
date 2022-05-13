@@ -11,7 +11,7 @@
 ;; A utility for displaying all Frimacs buffers.
 ;;
 (defcustom frimacs-buffer-menu-bufname "*Frimacs Buffer Menu*"
-  "Name of the buffer in which to display the buffer-menu."
+  "Name of the buffer in which to display the buffer menu."
   :type 'string
   :group 'frimacs)
 
@@ -31,7 +31,7 @@
   :group 'frimacs)
 
 (defface frimacs-buffer-menu-group-heading '((t :weight bold))
-  "Face used for displaying Frimacs Buffer Menu group headings"
+  "Face used for displaying Frimacs Buffer Menu group headings."
   :group 'frimacs)
 
 (defvar frimacs-buffer-menu-invoking-buffer nil
@@ -69,14 +69,15 @@
     (define-key map (kbd "K") 'frimacs-buffer-menu-kill-buffer)
     (define-key map (kbd "B") 'frimacs-buffer-menu-bury-buffer)
     map)
-  "The frimacs-buffer-menu-mode local keymap.")
+  "The `frimacs-buffer-menu-mode' local keymap.")
 
 (defun frimacs-buffer-menu-quit ()
+  "Quit the frimacs buffer menu."
   (interactive)
   (quit-window))
 
 (defun frimacs-buffer-menu-get-bufname ()
-  "Return name of buffer described by current line of buffer-menu."
+  "Return name of buffer described by current line of buffer menu."
   (save-excursion
     (beginning-of-line)
     (forward-char frimacs-buffer-menu-startcolumn-bufname)
@@ -128,7 +129,7 @@
            (message "No buffer on this line")))))
 
 (defun frimacs-buffer-menu-mouse-select (event)
-  "Select the buffer whose line you click on."
+  "Select the buffer whose line is clicked on, through EVENT."
   (interactive "e")
   (let (buffer)
     (with-current-buffer (window-buffer (posn-window (event-end event)))
@@ -139,7 +140,7 @@
     (switch-to-buffer buffer)))
 
 (defun frimacs-buffer-menu-cycle-forward ()
-  "Move to next active line of buffer-menu."
+  "Move to next active line of buffer menu."
   (interactive)
   (let ((newpoint nil))
     (save-excursion
@@ -154,7 +155,7 @@
       (goto-char newpoint))))
 
 (defun frimacs-buffer-menu-cycle-backward ()
-  "Move to previous active line of buffer-menu."
+  "Move to previous active line of buffer menu."
   (interactive)
   (let ((newpoint nil))
     (save-excursion
@@ -193,7 +194,7 @@
          (goto-char frimacs-buffer-menu-startpoint-help))))
 
 (defun frimacs-buffer-menu-make-truncated-name (name max-length)
-  "Construct printed name, truncating if necessary."
+  "Construct printed NAME, truncating to MAX-LENGTH if necessary."
   (let ((left-trunc-length 12))
     (cond ((or (null max-length) (<= (length name) max-length))
            name)
@@ -278,7 +279,7 @@
 \\[frimacs-buffer-menu-cycle-forward] -- move to next active line.
 \\[frimacs-buffer-menu-cycle-backward] -- move to previous active line.
 \\[frimacs-buffer-menu-select] -- select the buffer named on the current line.
-\\[frimacs-buffer-menu-mouse-select] -- select the buffer clicked on with mouse-1.
+\\[frimacs-buffer-menu-mouse-select] -- select the buffer clicked on.
 \\[frimacs-buffer-menu-select-other-window] -- display the buffer named on the current line in another window.
 \\[frimacs-buffer-menu-kill-buffer] -- kill the buffer named on the current line.
 \\[frimacs-buffer-menu-bury-buffer] -- bury the buffer named on the current line (move to bottom of list).

@@ -97,7 +97,7 @@
 ;;; Internal helper functions
 ;;;
 (defun org-babel-fricas--starify-name (str)
-  "Ensure valid process buffer name by wrapping with asterisks if necessary."
+  "Ensure STR is a valid process buffer name by wrapping with asterisks if necessary."
   (let ((name str))
     (unless (eql (aref str 0) ?*)
       (setq name (concat "*" name)))
@@ -108,7 +108,9 @@
 ;;; Org framework functions -- functions called by Org-mode
 ;;;
 (defun org-babel-fricas-initiate-session (session params)
-  "Start a FriCAS session for use by org-babel."
+  "Start a FriCAS session for use by org-babel.
+
+Use SESSION name and PARAMS parameters."
   ;;(message "org-babel-fricas-initiate-session\n %S\n %S" session params)
   (unless (string= session "none")
     (let ((session-name (org-babel-fricas--starify-name session)))
@@ -118,15 +120,14 @@
           (frimacs-process-start frimacs-process-program))))))
 
 (defun org-babel-fricas-var-to-fricas (val)
-  "Convert an elisp var into a string of FriCAS source code
-specifying a var of the same value."
+  "Convert elisp VAL into a FriCAS value."
   ;;(message "org-babel-fricas-var-to-fricas\n %S" val)
   (if (listp val)
       (concat "[" (mapconcat #'org-babel-fricas-var-to-fricas val ", ") "]")
     (format "%S" val)))
 
 (defun org-babel-variable-assignments:fricas (params)
-  "Return a list of FriCAS statements assigning the block's variables."
+  "Convert PARAMS list to FriCAS assignments."
   ;;(message "org-babel-variable-assignments:fricas\n %S" params)
   (let ((vars (cl-mapcan (lambda (param)
                            (and (eql :var (car param))
@@ -146,6 +147,8 @@ specifying a var of the same value."
 
 (defun org-babel-execute:fricas (body params)
   "Execute a block of FriCAS code with org-babel.
+
+Execute BODY in the context given by PARAMS.
 This function is called by `org-babel-execute-src-block'."
   ;;(message "org-babel-execute:fricas\n %S\n %S" body params)
   (let ((session (org-babel-fricas-initiate-session
@@ -158,9 +161,11 @@ This function is called by `org-babel-execute-src-block'."
       (org-babel-fricas--execute-line-by-line session body params))))
 
 (defun org-babel-fricas--body-needs-block-read (body)
+  "Return non-nil if BODY needs a block read."
   (string-match "^[[:space:]]+[[:graph:]]" body))
 
 (defun org-babel-fricas--execute-by-block-read (session body params)
+  "Execute BODY in context of PARAMS using SESSION."
   (let* ((results-value (string-match "\\<value\\>" (cdr (assoc :results params))))
          (show-prompt (and (not results-value)
                            (equal (cdr (assoc :show-prompt params)) "yes")))
@@ -189,6 +194,7 @@ This function is called by `org-babel-execute-src-block'."
        (buffer-substring (point-min) (point-max))))))
 
 (defun org-babel-fricas--execute-line-by-line (session body params)
+  "Execute BODY in context of PARAMS using SESSION."
   (let* ((results-value (string-match "\\<value\\>" (cdr (assoc :results params))))
          (show-prompt (and (not results-value)
                            (equal (cdr (assoc :show-prompt params)) "yes")))

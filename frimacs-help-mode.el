@@ -18,7 +18,7 @@
 
 (defvar frimacs-help-mode-syntax-table
   (copy-syntax-table frimacs-common-syntax-table)
-  "The frimacs-help-mode syntax table.")
+  "The `frimacs-help-mode' syntax table.")
 
 (defvar frimacs-help-font-lock-keywords
   (list (cons frimacs-standard-package-names-regexp          'frimacs-help-package-face)
@@ -33,10 +33,10 @@
     (set-keymap-parent map frimacs-common-keymap)
     (define-key map (kbd "q") 'quit-window)
     map)
-  "The frimacs-help-mode local keymap.")
+  "The `frimacs-help-mode' local keymap.")
 
 (defvar frimacs-help-mode-hook nil
-  "Hook for customizing frimacs-help-mode.")
+  "Hook for customizing `frimacs-help-mode'.")
 
 ;;;###autoload
 (define-derived-mode frimacs-help-mode fundamental-mode "Frimacs Help"

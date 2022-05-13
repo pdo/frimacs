@@ -80,7 +80,7 @@
   "Write OBJ to FILENAME using function `pp', the pretty-printer.
 
 The directory in which to write the file defaults to the value of
-the variable `frimacs-data-dir'. This can be overridden by
+the variable `frimacs-data-dir'.  This can be overridden by
 specifying a different path in the FILENAME string (either
 relative or absolute)."
   (let ((default-directory frimacs-data-dir))
@@ -93,7 +93,7 @@ relative or absolute)."
   "Read a Lisp object from FILENAME using function `read'.
 
 The directory in which FILENAME resides is assumed to be the
-value of the variable `frimacs-data-dir'. This can be overridden
+value of the variable `frimacs-data-dir'.  This can be overridden
 by specifying a different path in the FILENAME string (either
 relative or absolute)."
   (let ((default-directory frimacs-data-dir))

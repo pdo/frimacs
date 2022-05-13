@@ -30,7 +30,7 @@ DESCRIPTION is a one-line description of the command.")
   "Invoke a selector function by entering a single character.
 
 The user is prompted for a single character indicating the
-desired function. The `?' character describes the available
+desired function.  The `?' character describes the available
 functions.  See `define-frimacs-selector-function' for defining new
 functions."
   (interactive)
@@ -71,7 +71,7 @@ is chosen."
       (insert (format "%c:\t%s\n" (cl-first entry) (cl-second entry))))
     (help-mode)
     (display-buffer (current-buffer) nil t)
-    (shrink-window-if-larger-than-buffer 
+    (shrink-window-if-larger-than-buffer
      (get-buffer-window (current-buffer))))
   (frimacs-selector)
   (current-buffer))
@@ -89,6 +89,7 @@ is chosen."
       (message "FriCAS REPL not available, try M-x run-fricas"))))
 
 (defun frimacs-find-recent-buffer (mode)
+  "Find a recently used buffer of the given MODE."
   (let ((bufs (buffer-list (window-frame nil)))
         (buf nil))
     (while (and bufs (null buf))

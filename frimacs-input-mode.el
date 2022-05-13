@@ -24,13 +24,13 @@
   :group 'frimacs)
 
 (defcustom frimacs-input-indentation-step 2
-  "Indentation step to use in frimacs-input-mode buffers."
+  "Indentation step to use in `frimacs-input-mode' buffers."
   :type 'integer
   :group 'frimacs)
 
 (defvar frimacs-input-mode-syntax-table
   (copy-syntax-table frimacs-common-syntax-table)
-  "The frimacs-input-mode syntax table.")
+  "The `frimacs-input-mode' syntax table.")
 
 (defvar frimacs-input-doc-comment-regexp
   "\\+\\+.*$"
@@ -49,7 +49,7 @@
   '(("Variable" "^\\([[:word:]]+\\).+:=" 1)
     ("Function" "^\\([[:word:]]+\\).+==\\([^>]\\|$\\)" 1)
     ("Macro" "^\\([[:word:]]+\\).+==>" 1))
-  "Setting for `imenu-generic-expression' in frimacs-input-mode.")
+  "Setting for `imenu-generic-expression' in `frimacs-input-mode'.")
 
 (defvar frimacs-input-doc-comment-face 'frimacs-input-doc-comment)
 (defvar frimacs-input-keyword-face     'frimacs-input-keyword)
@@ -73,16 +73,18 @@
     (set-keymap-parent map frimacs-common-keymap)
     (define-key map (kbd "C-<return>") 'frimacs-input-send-line)
     map)
-  "The frimacs-input-mode local keymap.")
+  "The `frimacs-input-mode' local keymap.")
 
 (defvar frimacs-input-mode-hook nil
-  "Hook for customizing frimacs-input-mode.")
+  "Hook for customizing `frimacs-input-mode'.")
 
 (defun frimacs-input-read-buffer ()
+  "Read the current file into FriCAS."
   (interactive)
   (frimacs-process-read-file buffer-file-name))
 
 (defun frimacs-input-send-line ()
+  "Send the current line to FriCAS."
   (interactive)
   (let ((str (save-excursion
                (beginning-of-line)
@@ -91,12 +93,14 @@
     (frimacs-move-to-next-line)))
 
 (defun frimacs-input-complete-symbol ()
+  "Lookup symbol at point as possible prefix of a FriCAS name."
   (and (looking-back "[[:word:]]+" nil t)
        (list (match-beginning 0)
              (match-end 0)
              frimacs-standard-names-and-abbreviations)))
 
 (defun frimacs-input-interactive-complete ()
+  "Complete symbol at point."
   (interactive)
   (if (and (boundp 'company-mode) company-mode)
       (company-complete)
@@ -107,6 +111,7 @@
   "When to increase next line's indentation level.")
 
 (defun frimacs-input-indent-line ()
+  "Indent current line."
   (if (eql (char-syntax (char-before)) ?w)
       (frimacs-input-interactive-complete)
     (let ((computed-indent (+ (frimacs-find-previous-indent)
@@ -119,6 +124,7 @@
         (frimacs-set-current-indent (frimacs-find-previous-indent (current-column)))))))
 
 (defun frimacs-input-syntax-propertize (start end)
+  "Apply appropriate text properties to buffer between START and END."
   ;; Highlight operation names
   (remove-text-properties start end '(font-lock-face nil))
   (goto-char start)
