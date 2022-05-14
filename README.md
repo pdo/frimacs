@@ -18,6 +18,24 @@ category names (and their abbreviations) in distinct colours, and give
 quick access to popup buffers displaying summary information about
 these types and their operations.
 
+Frimacs may most easily be installed, using the usual Emacs package
+management tools, from the MELPA repository (when it becomes available
+there soon).
+
+Alternatively, Frimacs can be installed by cloning its source code
+repository at:-
+
+  http://github.com/pdo/frimacs.git
+
+and then adding the line:-
+
+  (load-file "/path/to/frimacs.el")
+
+to your ~/.emacs file, where the /path/to component should obviously
+be replaced with the location of the code on your system.  You may
+also want to run "C-u M-x byte-recompile-directory" to compile all the
+source files to bytecode.
+
 Once the package is installed, files ending in .input, and .spad are
 put into the appropriate mode, and there is an "M-x run-fricas"
 command available to start an interactive FriCAS session.  Look into
@@ -32,4 +50,4 @@ done in a fit of honesty, to acknowledge the fact that nearly all
 development has been done with FriCAS from day one, and that it should
 be FriCAS that takes centre stage in future developments.
 
-PDO, 12 May 2022
+PDO, 14 May 2022
