@@ -113,7 +113,10 @@
 Use SESSION name and PARAMS parameters."
   ;;(message "org-babel-fricas-initiate-session\n %S\n %S" session params)
   (unless (string= session "none")
-    (let ((session-name (org-babel-fricas--starify-name session)))
+    (let ((session-name
+           (if (stringp session)
+               (org-babel-fricas--starify-name session)
+             frimacs-process-repl-buffer-name)))
       (let ((frimacs-process-repl-buffer-name session-name)) ; dynamic binding
         (if (org-babel-comint-buffer-livep session-name)
             session-name
@@ -175,23 +178,26 @@ This function is called by `org-babel-execute-src-block'."
     (with-temp-buffer
       (insert (org-babel-expand-body:fricas body params))
       (write-region (point-min) (point-max) tmp-filename))
-    (let ((frimacs-process-repl-buffer-name session)) ; dynamic binding
-      (with-frimacs-process-query-buffer
-       (frimacs-process-redirect-send-command
-        (if show-input
-            (format ")read %s" tmp-filename)
-          (format ")read %s )quiet" tmp-filename))
-        (current-buffer) nil nil t nil show-prompt)
-       (let ((delete-trailing-lines t)) ; dynamic binding
-         (delete-trailing-whitespace))
-       (when results-value
-         ;; remove type description
-         (goto-char (point-max))
-         (let ((pt (re-search-backward "^[[:space:]]*Type:" nil t)))
-           (when pt
-             (goto-char pt)
-             (delete-region (point) (point-max)))))
-       (buffer-substring (point-min) (point-max))))))
+    (let ((session-name (if (stringp session)
+                            (org-babel-fricas--starify-name session)
+                          frimacs-process-repl-buffer-name)))
+      (let ((frimacs-process-repl-buffer-name session-name)) ; dynamic binding
+        (with-frimacs-process-query-buffer
+         (frimacs-process-redirect-send-command
+          (if show-input
+              (format ")read %s" tmp-filename)
+            (format ")read %s )quiet" tmp-filename))
+          (current-buffer) nil nil t nil show-prompt)
+         (let ((delete-trailing-lines t)) ; dynamic binding
+           (delete-trailing-whitespace))
+         (when results-value
+           ;; remove type description
+           (goto-char (point-max))
+           (let ((pt (re-search-backward "^[[:space:]]*Type:" nil t)))
+             (when pt
+               (goto-char pt)
+               (delete-region (point) (point-max)))))
+         (buffer-substring (point-min) (point-max)))))))
 
 (defun org-babel-fricas--execute-line-by-line (session body params)
   "Execute BODY in context of PARAMS using SESSION."
@@ -201,7 +207,10 @@ This function is called by `org-babel-execute-src-block'."
          (show-input (and (not results-value)
                           (equal (cdr (assoc :show-input params)) "yes")))
          (lines (split-string (org-babel-expand-body:fricas body params) "\n"))
-         (frimacs-process-repl-buffer-name session)) ; dynamic binding
+         (session-name (if (stringp session)
+                           (org-babel-fricas--starify-name session)
+                         frimacs-process-repl-buffer-name))
+         (frimacs-process-repl-buffer-name session-name)) ; dynamic binding
     (with-frimacs-process-query-buffer
      (dolist (line lines)
        (when results-value
