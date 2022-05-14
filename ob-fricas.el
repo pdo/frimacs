@@ -97,7 +97,7 @@
 ;;; Internal helper functions
 ;;;
 (defun org-babel-fricas--starify-name (str)
-  "Ensure STR is a valid process buffer name by wrapping with asterisks if necessary."
+  "Ensure STR is a valid buffer name by wrapping with asterisks if necessary."
   (let ((name str))
     (unless (eql (aref str 0) ?*)
       (setq name (concat "*" name)))
@@ -112,7 +112,8 @@
 
 Use SESSION name and PARAMS parameters."
   ;;(message "org-babel-fricas-initiate-session\n %S\n %S" session params)
-  (unless (string= session "none")
+  (if (string= session "none")
+      session
     (let ((session-name
            (if (stringp session)
                (org-babel-fricas--starify-name session)
@@ -120,7 +121,8 @@ Use SESSION name and PARAMS parameters."
       (let ((frimacs-process-repl-buffer-name session-name)) ; dynamic binding
         (if (org-babel-comint-buffer-livep session-name)
             session-name
-          (frimacs-process-start frimacs-process-program))))))
+          (frimacs-process-start frimacs-process-program)
+          session-name)))))
 
 (defun org-babel-fricas-var-to-fricas (val)
   "Convert elisp VAL into a FriCAS value."
@@ -230,12 +232,21 @@ This function is called by `org-babel-execute-src-block'."
            (delete-region (point) (point-max)))))
      (buffer-substring (point-min) (point-max)))))
 
-;; Add support for "axiom" language (for backward compatibility with ob-axiom)
+;; Add support for "axiom" language specifier (for backward compatibility with ob-axiom)
 (add-to-list 'org-babel-tangle-lang-exts '("axiom" . "input"))
 (add-to-list 'org-src-lang-modes '("axiom" . frimacs-input))
 
-(defalias 'org-babel-header-args:axiom 'org-babel-header-args:fricas)
-(defalias 'org-babel-default-header-args:axiom 'org-babel-default-header-args:fricas)
+(defconst org-babel-header-args:axiom
+  '((block-read (no yes auto))
+    (show-prompt (no yes))
+    (show-input (no yes))))
+
+(defvar org-babel-default-header-args:axiom
+  '((:session . "FriCAS Org-Babel Session")
+    (:block-read . "auto")
+    (:show-prompt . "yes")
+    (:show-input . "yes")))
+
 (defalias 'org-babel-variable-assignments:axiom 'org-babel-variable-assignments:fricas)
 (defalias 'org-babel-expand-body:axiom 'org-babel-expand-body:fricas)
 (defalias 'org-babel-execute:axiom 'org-babel-execute:fricas)
