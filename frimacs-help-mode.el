@@ -1,15 +1,22 @@
-;; -*- lexical-binding: t -*-
-;;
-;; Author: Paul Onions <paul.onions@acm.org>
-;; Keywords: FriCAS
-;;
+;;; frimacs-help-mode.el --- Part of frimacs  -*- lexical-binding: t -*-
+
 ;; Copyright (C) 2022 Paul Onions
-;;
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; This file is not part of GNU Emacs.
+
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-;;
+
+;;; Commentary:
+
 ;; A major mode to use in Frimacs help text buffers.
-;;
+
+;;; Code:
+
 (require 'frimacs-base)
 
 (defvar frimacs-help-package-face  'frimacs-package-name)
@@ -51,3 +58,5 @@
   (setq frimacs-menu-read-pile-enable nil))
 
 (provide 'frimacs-help-mode)
+
+;;; frimacs-help-mode.el ends here

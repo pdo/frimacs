@@ -1,16 +1,23 @@
-;; -*- lexical-binding: t -*-
-;;
-;; Author: Paul Onions <paul.onions@acm.org>
-;; Keywords: FriCAS
-;;
+;;; frimacs-company.el --- Part of frimacs  -*- lexical-binding: t -*-
+
 ;; Copyright (C) 2022 Paul Onions
-;;
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; This file is not part of GNU Emacs.
+
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-;;
+
+;;; Commentary:
+
 ;; Backend routines to support company-mode name completion in frimacs
 ;; buffers.
-;;
+
+;;; Code:
+
 (require 'cl-lib)
 
 (with-eval-after-load 'company
@@ -56,3 +63,5 @@ See company documentation for COMMAND, ARG and IGNORED syntax."
   (add-to-list 'company-backends 'frimacs-company-backend))
 
 (provide 'frimacs-company)
+
+;;; frimacs-company.el ends here

@@ -1,15 +1,17 @@
-;;; frimacs.el --- An environment for the FriCAS computer algebra system -*- lexical-binding: t -*-
+;;; frimacs.el --- An environment for working with the FriCAS computer algebra system
 
 ;; Copyright (C) 2022 Paul Onions
 
 ;; Author: Paul Onions <paul.onions@acm.org>
 ;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; Package-Requires: ((emacs "26.1"))
+
+;; This file is not part of GNU Emacs.
 
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-
-;; Package-Requires: ((emacs "24.2"))
-;; URL: https://github.com/pdo/frimacs
 
 ;;; Commentary:
 

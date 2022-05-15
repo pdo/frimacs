@@ -1,13 +1,18 @@
-;; -*- lexical-binding: t -*-
-;;
-;; Author: Paul Onions
-;; Keywords: FriCAS, Frimacs
-;;
+;;; ob-fricas.el --- Part of frimacs  -*- lexical-binding: t -*-
+
 ;; Copyright (C) 2022 Paul Onions
-;;
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; This file is not part of GNU Emacs.
+
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-;;
+
+;;; Commentary:
+
 ;; This is an org-babel extension that integrates the FriCAS computer
 ;; algebra system into org-mode, allowing a literate development &
 ;; presentation style with easy publishing to HTML, PDF, etc.
@@ -62,7 +67,9 @@
 ;; )set message prompt plain
 ;; )boot $IOindex := nil
 ;; #+END_SRC
-;;
+
+;;; Code:
+
 (require 'ob)
 (require 'ob-ref)
 (require 'ob-comint)
@@ -252,3 +259,5 @@ This function is called by `org-babel-execute-src-block'."
 (defalias 'org-babel-execute:axiom 'org-babel-execute:fricas)
 
 (provide 'ob-fricas)
+
+;;; ob-fricas.el ends here

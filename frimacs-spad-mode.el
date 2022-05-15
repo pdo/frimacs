@@ -1,16 +1,23 @@
-;; -*- lexical-binding: t -*-
-;;
-;; Author: Paul Onions <paul.onions@acm.org>
-;; Keywords: FriCAS
-;;
+;;; frimacs-spad-mode.el --- Part of frimacs  -*- lexical-binding: t -*-
+
 ;; Copyright (C) 2022 Paul Onions
-;;
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; This file is not part of GNU Emacs.
+
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-;;
-;; A major mode for the SPAD language. SPAD is the library language used
+
+;;; Commentary:
+
+;; A major mode for the SPAD language.  SPAD is the library language used
 ;; by the FriCAS computer algebra system.
-;;
+
+;;; Code:
+
 (require 'frimacs-base)
 (require 'frimacs-help-mode)
 (require 'frimacs-process-mode)
@@ -148,3 +155,5 @@
   (setq frimacs-menu-read-pile-enable nil))
 
 (provide 'frimacs-spad-mode)
+
+;;; frimacs-spad-mode.el ends here

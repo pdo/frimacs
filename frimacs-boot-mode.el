@@ -1,18 +1,25 @@
-;; -*- lexical-binding: t -*-
-;;
-;; Author: Paul Onions <paul.onions@acm.org>
-;; Keywords: FriCAS
-;;
+;;; frimacs-boot-mode.el --- Part of frimacs  -*- lexical-binding: t -*-
+
 ;; Copyright (C) 2022 Paul Onions
-;;
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; This file is not part of GNU Emacs.
+
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-;;
+
+;;; Commentary:
+
 ;; A major mode for the FriCAS Boot language.  Boot is an internal
 ;; language of this computer algebra system that is used to implement
 ;; the SPAD compiler and interactive language interpreter.  It has a
 ;; relatively direct mapping to Common Lisp.
-;;
+
+;;; Code:
+
 (require 'frimacs-base)
 
 (defface frimacs-boot-keyword '((t :inherit font-lock-keyword-face))
@@ -98,3 +105,5 @@
   (setq frimacs-menu-read-pile-enable nil))
 
 (provide 'frimacs-boot-mode)
+
+;;; frimacs-boot-mode.el ends here

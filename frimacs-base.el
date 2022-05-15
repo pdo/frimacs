@@ -1,15 +1,21 @@
-;; -*- lexical-binding: t -*-
-;;
-;; Author: Paul Onions <paul.onions@acm.org>
-;; Keywords: FriCAS
-;;
+;;; frimacs-base.el --- Part of frimacs  -*- lexical-binding: t -*-
+
 ;; Copyright (C) 2022 Paul Onions
-;;
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; This file is not part of GNU Emacs.
+
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-;;
+
+;;; Commentary:
+
 ;; Basic setup for Frimacs.
-;;
+
+;;; Code:
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Customizations
@@ -325,6 +331,10 @@ of the space, to the specified indentation level."
 ;; Common filling routines
 ;;
 (defun frimacs-fill-paragraph (&optional justify region)
+  "Find current paragraph limits and call `fill-region-as-paragraph'.
+
+Use JUSTIFY justification mode, and if REGION indicates an active
+region then use its limits instead of trying to find our own."
   (let ((start nil)
         (end nil))
     (if region
@@ -362,6 +372,7 @@ of the space, to the specified indentation level."
 (make-variable-buffer-local 'frimacs-menu-read-pile-enable)
 
 (defun frimacs-edit-customization-group ()
+  "Enter the Emacs customization editor for the Frimacs group."
   (interactive)
   (customize-group 'frimacs))
 
@@ -494,6 +505,9 @@ continuation-lines (underscores escape new lines)."
       line)))
 
 (defun frimacs-flash-region (start end)
+  "Flash the region with an overlay.
+
+Region is between START and END positions."
   (let ((ovl (make-overlay start end)))
     (overlay-put ovl 'face 'secondary-selection)
     (run-with-timer 0.5 nil 'delete-overlay ovl)))
@@ -504,8 +518,13 @@ continuation-lines (underscores escape new lines)."
 (defvar frimacs-debug nil)
 
 (defmacro frimacs-debug-message (msg)
+  "A debug messaging macro for development.
+
+Display MSG in the minibuffer when `frimacs-debug' is non-nil."
   (if frimacs-debug
       `(message ,msg)
     nil))
 
 (provide 'frimacs-base)
+
+;;; frimacs-base.el ends here

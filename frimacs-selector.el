@@ -1,17 +1,24 @@
-;; -*- lexical-binding: t -*-
-;;
-;; Author: Paul Onions <paul.onions@acm.org>
-;; Keywords: FriCAS
-;;
+;;; frimacs-selector.el --- Part of frimacs  -*- lexical-binding: t -*-
+
 ;; Copyright (C) 2022 Paul Onions
-;;
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; This file is not part of GNU Emacs.
+
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-;;
+
+;;; Commentary:
+
 ;; A utility for quickly selecting a buffer from the Frimacs environment.
 ;;
 ;; Inspired by (and code borrowed from) the Slime selector function.
-;;
+
+;;; Code:
+
 (require 'cl-lib)
 
 (defcustom frimacs-selector-help-buffer-name "*Frimacs Selector Help*"
@@ -119,3 +126,5 @@ is chosen."
   (frimacs-buffer-menu))
 
 (provide 'frimacs-selector)
+
+;;; frimacs-selector.el ends here

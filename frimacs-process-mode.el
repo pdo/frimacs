@@ -1,15 +1,22 @@
-;; -*- lexical-binding: t -*-
-;;
-;; Author: Paul Onions <paul.onions@acm.org>
-;; Keywords: FriCAS
-;;
+;;; frimacs-process-mode.el --- Part of frimacs  -*- lexical-binding: t -*-
+
 ;; Copyright (C) 2022 Paul Onions
-;;
+
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
+
+;; This file is not part of GNU Emacs.
+
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
-;;
+
+;;; Commentary:
+
 ;; A mode for launching and interacting with a running FriCAS system.
-;;
+
+;;; Code:
+
 (require 'cl-lib)
 (require 'frimacs-base)
 (require 'frimacs-help-mode)
@@ -1185,3 +1192,5 @@ then simply switch to it."
     (pop-to-buffer buf)))
 
 (provide 'frimacs-process-mode)
+
+;;; frimacs-process-mode.el ends here
