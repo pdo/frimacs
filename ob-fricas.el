@@ -254,9 +254,9 @@ This function is called by `org-babel-execute-src-block'."
     (:show-prompt . "yes")
     (:show-input . "yes")))
 
-(defalias 'org-babel-variable-assignments:axiom 'org-babel-variable-assignments:fricas)
-(defalias 'org-babel-expand-body:axiom 'org-babel-expand-body:fricas)
-(defalias 'org-babel-execute:axiom 'org-babel-execute:fricas)
+(defalias 'org-babel-variable-assignments:axiom #'org-babel-variable-assignments:fricas)
+(defalias 'org-babel-expand-body:axiom #'org-babel-expand-body:fricas)
+(defalias 'org-babel-execute:axiom #'org-babel-execute:fricas)
 
 (provide 'ob-fricas)
 

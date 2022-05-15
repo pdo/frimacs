@@ -119,19 +119,19 @@ relative or absolute)."
   "A list of standard FriCAS package (abbrev . name) pairs.")
 
 (defvar frimacs-standard-package-names
-  (mapcar 'cdr frimacs-standard-package-info)
+  (mapcar #'cdr frimacs-standard-package-info)
   "A list of standard FriCAS package names.")
   
 (defvar frimacs-standard-package-names-regexp
-  (concat "\\<" (regexp-opt (mapcar 'regexp-quote frimacs-standard-package-names)) "\\>")
+  (concat "\\<" (regexp-opt (mapcar #'regexp-quote frimacs-standard-package-names)) "\\>")
   "Regular expression for FriCAS standard package names.")
 
 (defvar frimacs-standard-package-abbreviations
-  (remove nil (mapcar 'car frimacs-standard-package-info))
+  (remove nil (mapcar #'car frimacs-standard-package-info))
   "A list of standard FriCAS package abbreviations.")
 
 (defvar frimacs-standard-package-abbreviations-regexp
-  (concat "\\<" (regexp-opt (mapcar 'regexp-quote frimacs-standard-package-abbreviations)) "\\>")
+  (concat "\\<" (regexp-opt (mapcar #'regexp-quote frimacs-standard-package-abbreviations)) "\\>")
   "Regular expression for FriCAS standard package abbreviations.")
 
 (defvar frimacs-standard-package-names-and-abbreviations
@@ -146,19 +146,19 @@ relative or absolute)."
   "A list of standard FriCAS domain (abbrev . name) pairs.")
 
 (defvar frimacs-standard-domain-names
-  (mapcar 'cdr frimacs-standard-domain-info)
+  (mapcar #'cdr frimacs-standard-domain-info)
   "A list of standard FriCAS domain names.")
   
 (defvar frimacs-standard-domain-names-regexp
-  (concat "\\<" (regexp-opt (mapcar 'regexp-quote frimacs-standard-domain-names)) "\\>")
+  (concat "\\<" (regexp-opt (mapcar #'regexp-quote frimacs-standard-domain-names)) "\\>")
   "Regular expression for FriCAS standard domain names.")
 
 (defvar frimacs-standard-domain-abbreviations
-  (remove nil (mapcar 'car frimacs-standard-domain-info))
+  (remove nil (mapcar #'car frimacs-standard-domain-info))
   "A list of standard FriCAS domain abbreviations.")
 
 (defvar frimacs-standard-domain-abbreviations-regexp
-  (concat "\\<" (regexp-opt (mapcar 'regexp-quote frimacs-standard-domain-abbreviations)) "\\>")
+  (concat "\\<" (regexp-opt (mapcar #'regexp-quote frimacs-standard-domain-abbreviations)) "\\>")
   "Regular expression for FriCAS standard domain abbreviations.")
 
 (defvar frimacs-standard-domain-names-and-abbreviations
@@ -173,19 +173,19 @@ relative or absolute)."
   "A list of standard FriCAS category (abbrev . name) pairs.")
 
 (defvar frimacs-standard-category-names
-  (mapcar 'cdr frimacs-standard-category-info)
+  (mapcar #'cdr frimacs-standard-category-info)
   "A list of standard FriCAS category names.")
   
 (defvar frimacs-standard-category-names-regexp
-  (concat "\\<" (regexp-opt (mapcar 'regexp-quote frimacs-standard-category-names)) "\\>")
+  (concat "\\<" (regexp-opt (mapcar #'regexp-quote frimacs-standard-category-names)) "\\>")
   "Regular expression for FriCAS standard category names.")
 
 (defvar frimacs-standard-category-abbreviations
-  (remove nil (mapcar 'car frimacs-standard-category-info))
+  (remove nil (mapcar #'car frimacs-standard-category-info))
   "A list of standard FriCAS category abbreviations.")
 
 (defvar frimacs-standard-category-abbreviations-regexp
-  (concat "\\<" (regexp-opt (mapcar 'regexp-quote frimacs-standard-category-abbreviations)) "\\>")
+  (concat "\\<" (regexp-opt (mapcar #'regexp-quote frimacs-standard-category-abbreviations)) "\\>")
   "Regular expression for FriCAS standard category abbreviations.")
 
 (defvar frimacs-standard-category-names-and-abbreviations
@@ -204,7 +204,7 @@ relative or absolute)."
   "A list of standard FriCAS operation names.")
 
 (defvar frimacs-standard-operation-names-regexp
-  (concat "\\<" (regexp-opt (mapcar 'regexp-quote frimacs-standard-operation-names)) "\\>")
+  (concat "\\<" (regexp-opt (mapcar #'regexp-quote frimacs-standard-operation-names)) "\\>")
   "Regular expression for FriCAS standard operation names.")
 
 (message "Done loading Frimacs data files")

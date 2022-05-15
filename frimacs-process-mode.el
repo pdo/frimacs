@@ -960,16 +960,16 @@ Optionally FILTER may be set to `:dirs' or `:files'."
   :group 'frimacs
   (setq comint-prompt-regexp (concat "\\(" frimacs-process-prompt-regexp
                                      "\\|" frimacs-process-break-prompt-regexp "\\)"))
-  (setq comint-get-old-input (function frimacs-process-get-old-input))
+  (setq comint-get-old-input #'frimacs-process-get-old-input)
   (setq font-lock-defaults (list frimacs-process-font-lock-keywords))
   (setq electric-indent-inhibit t)
   (make-local-variable 'indent-line-function)
   (make-local-variable 'completion-at-point-functions)
   (make-local-variable 'comint-input-filter-functions)
   (make-local-variable 'comint-output-filter-functions)
-  (setq indent-line-function 'frimacs-process-indent-line)
-  (setq completion-at-point-functions '(frimacs-process-complete-command-line
-                                        frimacs-process-complete-symbol))
+  (setq indent-line-function #'frimacs-process-indent-line)
+  (setq completion-at-point-functions (list #'frimacs-process-complete-command-line
+                                            #'frimacs-process-complete-symbol))
   (setq frimacs-menu-compile-buffer-enable nil)
   (setq frimacs-menu-compile-file-enable t)
   (setq frimacs-menu-read-buffer-enable nil)
