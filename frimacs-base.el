@@ -29,22 +29,22 @@
   :type 'boolean
   :group 'frimacs)
 
-(defcustom frimacs-standard-package-info-file "fricas-standard-package-info.el"
+(defcustom frimacs-standard-package-info-file "fricas-standard-package-info.dat"
   "File from which to `read' standard package information."
   :type 'string
   :group 'frimacs)
 
-(defcustom frimacs-standard-domain-info-file "fricas-standard-domain-info.el"
+(defcustom frimacs-standard-domain-info-file "fricas-standard-domain-info.dat"
   "File from which to `read' standard domain information."
   :type 'string
   :group 'frimacs)
 
-(defcustom frimacs-standard-category-info-file "fricas-standard-category-info.el"
+(defcustom frimacs-standard-category-info-file "fricas-standard-category-info.dat"
   "File from which to `read' standard category information."
   :type 'string
   :group 'frimacs)
 
-(defcustom frimacs-standard-operation-info-file "fricas-standard-operation-info.el"
+(defcustom frimacs-standard-operation-info-file "fricas-standard-operation-info.dat"
   "File from which to `read' standard operation information."
   :type 'string
   :group 'frimacs)
@@ -105,7 +105,8 @@ relative or absolute)."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Load standard package/domain/category/operation names files
 ;;
-(message "Loading standard FriCAS package information")
+(message "Loading Frimacs data files")
+(message "Loading Frimacs standard package information")
 
 (defvar frimacs-standard-package-info
   (frimacs-read-data-file frimacs-standard-package-info-file)
@@ -132,7 +133,7 @@ relative or absolute)."
           frimacs-standard-package-abbreviations)
   "Standard FriCAS package names and abbreviations.")
 
-(message "Loading standard FriCAS domain information")
+(message "Loading Frimacs standard domain information")
 
 (defvar frimacs-standard-domain-info
   (frimacs-read-data-file frimacs-standard-domain-info-file)
@@ -159,7 +160,7 @@ relative or absolute)."
           frimacs-standard-domain-abbreviations)
   "Standard FriCAS domain names and abbreviations.")
 
-(message "Loading standard FriCAS category information")
+(message "Loading Frimacs standard category information")
 
 (defvar frimacs-standard-category-info
   (frimacs-read-data-file frimacs-standard-category-info-file)
@@ -186,7 +187,7 @@ relative or absolute)."
           frimacs-standard-category-abbreviations)
   "Standard FriCAS category names and abbreviations.")
 
-(message "Loading standard FriCAS operation information")
+(message "Loading Frimacs standard operation information")
 
 (defvar frimacs-standard-operation-info
   (frimacs-read-data-file frimacs-standard-operation-info-file)
@@ -199,6 +200,8 @@ relative or absolute)."
 (defvar frimacs-standard-operation-names-regexp
   (concat "\\<" (regexp-opt (mapcar 'regexp-quote frimacs-standard-operation-names)) "\\>")
   "Regular expression for FriCAS standard operation names.")
+
+(message "Done loading Frimacs data files")
 
 ;; Lists combining package, domain & category names and/or abbreviations
 (defvar frimacs-standard-constructor-names

@@ -1,9 +1,10 @@
 ;; -*- lexical-binding: t -*-
 ;;
-;; Author: Paul Onions <paul.onions@acm.org>
-;; Keywords: FriCAS
-;;
 ;; Copyright (C) 2022 Paul Onions
+;;
+;; Author: Paul Onions <paul.onions@acm.org>
+;; Keywords: FriCAS, computer algebra, extensions, tools
+;; URL: https://github.com/pdo/frimacs
 ;;
 ;; This file is free software, see the LICENCE file in this directory
 ;; for copying terms.
@@ -135,7 +136,7 @@ TYPE should be either :package, :domain or :category."
   (mapcar 'string-to-number (split-string str "\\.")))
 
 (defvar frimacs-build-frimacs-filespecs
-  '("LICENCE" "*.el" ("data" "data/*.el")
+  '("LICENCE" "*.el" ("data" "data/*.dat")
     (:exclude "frimacs-build-utils.el")))
 
 (defun frimacs-build-emacs-package-dir (pkg-filespecs src-dir dst-dir)
