@@ -68,6 +68,11 @@
   (concat "\\<" (regexp-opt frimacs-boot-keyword-names) "\\>")
   "Regular expression for FriCAS Boot keywords.")
 
+(defvar frimacs-boot-imenu-generic-expression
+  '(("Variable" "^\\(\\$[[:word:]]+\\)" 1)
+    ("Function" "^\\([[:word:]]+\\).+==" 1))
+  "Setting for `imenu-generic-expression' in `frimacs-boot-mode'.")
+
 (defvar frimacs-boot-keyword-face 'frimacs-boot-keyword)
 
 (defvar frimacs-boot-font-lock-keywords
@@ -129,6 +134,7 @@
   (setq adaptive-fill-first-line-regexp "[[:blank:]]*\\(\\+\\+\\|--\\)[[:blank:]]?")
   (setq adaptive-fill-regexp "[[:blank:]]*\\(\\+\\+\\|--\\)[[:blank:]]?")
   (setq fill-paragraph-function (function frimacs-fill-paragraph))
+  (setq imenu-generic-expression frimacs-boot-imenu-generic-expression)
   (setq frimacs-menu-compile-buffer-enable nil)
   (setq frimacs-menu-compile-file-enable nil)
   (setq frimacs-menu-read-buffer-enable nil)
