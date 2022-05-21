@@ -26,6 +26,11 @@
   "Face used for displaying FriCAS Boot keywords."
   :group 'frimacs)
 
+(defcustom frimacs-boot-indentation-step 2
+  "Indentation step to use in `frimacs-boot-mode' buffers."
+  :type 'integer
+  :group 'frimacs)
+
 (defvar frimacs-boot-mode-syntax-table
   (let ((table (make-syntax-table prog-mode-syntax-table)))
     (modify-syntax-entry ?_ "\\" table)
@@ -77,6 +82,30 @@
 (defvar frimacs-boot-mode-hook nil
   "Hook for customizing `frimacs-boot-mode'.")
 
+(defun frimacs-boot-interactive-complete ()
+  "Complete symbol at point."
+  (interactive)
+  (if (and (boundp 'company-mode) company-mode)
+      (company-complete)
+    (complete-symbol nil)))
+
+(defvar frimacs-boot-indentation-increase-regexp
+  "\\(then$\\|else$\\|repeat$\\|==$\\)"
+  "When to increase next line's indentation level.")
+
+(defun frimacs-boot-indent-line ()
+  "Indent current line."
+  (if (eql (char-syntax (char-before)) ?w)
+      (frimacs-boot-interactive-complete)
+    (let ((computed-indent (+ (frimacs-find-previous-indent)
+                              (frimacs-compute-indent-increment
+                               frimacs-boot-indentation-increase-regexp
+                               frimacs-boot-indentation-step))))
+      (if (or (eql (current-column) 0)
+              (frimacs-in-indent-space))
+          (frimacs-set-current-indent computed-indent)
+        (frimacs-set-current-indent (frimacs-find-previous-indent (current-column)))))))
+
 (defvar frimacs-boot-syntax-propertize-fn
   (syntax-propertize-rules
    ("\\(-\\)\\(-\\)"     (1 (string-to-syntax "< 1"))
@@ -89,10 +118,13 @@
   "Major mode for the FriCAS Boot language."
   :group 'frimacs
   (setq font-lock-defaults (list frimacs-boot-font-lock-keywords))
+  (setq electric-indent-inhibit t)
+  (make-local-variable 'indent-line-function)
   (make-local-variable 'syntax-propertize-function)
   (make-local-variable 'adaptive-fill-first-line-regexp)
   (make-local-variable 'adaptive-fill-regexp)
   (make-local-variable 'fill-paragraph-function)
+  (setq indent-line-function #'frimacs-boot-indent-line)
   (setq syntax-propertize-function frimacs-boot-syntax-propertize-fn)
   (setq adaptive-fill-first-line-regexp "[[:blank:]]*\\(\\+\\+\\|--\\)[[:blank:]]?")
   (setq adaptive-fill-regexp "[[:blank:]]*\\(\\+\\+\\|--\\)[[:blank:]]?")
