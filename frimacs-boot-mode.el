@@ -31,6 +31,13 @@
   :type 'integer
   :group 'frimacs)
 
+(defcustom frimacs-boot-source-dirs
+  '("<fricas-source-dir>/src/interp/"
+    "<fricas-source-dir>/src/boot/")
+  "A list of directories in which to search for Boot language source code."
+  :type 'list
+  :group 'frimacs)
+
 (defvar frimacs-boot-mode-syntax-table
   (let ((table (make-syntax-table prog-mode-syntax-table)))
     (modify-syntax-entry ?_ "\\" table)
@@ -117,6 +124,21 @@
                          (2 (string-to-syntax "< 2")))
    ("\\(\\+\\)\\(\\+\\)" (1 (string-to-syntax "< 1"))
                          (2 (string-to-syntax "< 2")))))
+
+(defvar frimacs-boot-etags-regexp
+  "/\\(\\$?\\w+\\??\\)/\\1/"
+  "Regular expression for matching Boot function and variable definitions.")
+
+(defun frimacs-boot-make-etags-files ()
+  "Create etags files in the directories specified by `frimacs-boot-source-dirs'."
+  (interactive)
+  (let ((ropt (concat " --regex='" frimacs-boot-etags-regexp "'")))
+    (dolist (dir frimacs-boot-source-dirs)
+      (let ((cmd (concat "find " dir " -name '*.boot' -print"
+                         " | etags --language=none " ropt " -o " dir "/TAGS -"
+                         " ; echo Done")))
+        (message "Running shell command: %s" cmd)
+        (shell-command cmd)))))
 
 ;;;###autoload
 (define-derived-mode frimacs-boot-mode prog-mode "Frimacs Boot"
