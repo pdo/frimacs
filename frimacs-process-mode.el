@@ -88,7 +88,7 @@ file."
   :group 'frimacs)
 
 (defcustom frimacs-process-spad-source-dirs
-  '("./" "/usr/local/fricas/lib/fricas/target/i686-apple-darwin14.1.0/src/algebra/")
+  '("./" "<fricas-install-dir>/lib/fricas/target/<target-dir>/src/algebra/")
   "A list of directories in which to search for SPAD source code."
   :type 'list
   :group 'frimacs)
@@ -818,7 +818,10 @@ variable `frimacs-process-webview-url'."
 
 ;;;###autoload
 (defun frimacs-process-edit-constructor-source (name-or-abbrev)
-  "Open the SPAD source file containing NAME-OR-ABBREV."
+  "Open the SPAD source file containing NAME-OR-ABBREV.
+
+Calling `frimacs-process-find-constructor-source' to find the
+appropriate file."
   (interactive (list (completing-read
                       "Find source for constructor: "
                       frimacs-standard-constructor-names-and-abbreviations
