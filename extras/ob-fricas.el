@@ -1,10 +1,12 @@
-;;; ob-fricas.el --- Part of frimacs  -*- lexical-binding: t -*-
+;;; ob-fricas.el --- A FriCAS backend for Org-Babel  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022 Paul Onions
 
 ;; Author: Paul Onions <paul.onions@acm.org>
 ;; Keywords: FriCAS, computer algebra, extensions, tools
 ;; URL: https://github.com/pdo/frimacs
+
+;; Package-Requires: ((emacs "26.1") (frimacs "20220525"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -15,10 +17,17 @@
 
 ;; This is an org-babel extension that integrates the FriCAS computer
 ;; algebra system into org-mode, allowing a literate development &
-;; presentation style with easy publishing to HTML, PDF, etc.
+;; presentation style with easy publishing to HTML, PDF, etc.  It
+;; requires the ``frimacs'' package also to be installed.
 ;;
 ;; See the ``Working with source code'' chapter of the Org manual for
 ;; details on using org-babel functionality in Org files.
+;;
+;; To enable this extension put
+;;
+;;  (require 'ob-fricas)
+;;
+;; in your ~/.emacs initialisation file.
 ;;
 ;; There are two language names defined in this extension: ``fricas''
 ;; and ``spad''.  The first is for running arbitrary code in the

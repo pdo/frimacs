@@ -1,4 +1,4 @@
-;;; frimacs.el --- An environment for working with the FriCAS computer algebra system
+;;; frimacs.el --- An environment for the FriCAS computer algebra system
 
 ;; Copyright (C) 2022 Paul Onions
 
@@ -63,8 +63,6 @@
 (require 'frimacs-boot-mode)
 (require 'frimacs-buffer-menu)
 (require 'frimacs-selector)
-(require 'frimacs-company)
-(require 'ob-fricas)
 
 ;; Automatically put .input, .spad and .boot files into the correct major mode.
 ;;;###autoload
