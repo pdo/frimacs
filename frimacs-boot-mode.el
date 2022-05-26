@@ -94,13 +94,6 @@
 (defvar frimacs-boot-mode-hook nil
   "Hook for customizing `frimacs-boot-mode'.")
 
-(defun frimacs-boot-interactive-complete ()
-  "Complete symbol at point."
-  (interactive)
-  (if (and (boundp 'company-mode) company-mode)
-      (company-complete)
-    (complete-symbol nil)))
-
 (defvar frimacs-boot-indentation-increase-regexp
   "\\(then$\\|else$\\|repeat$\\|==$\\)"
   "When to increase next line's indentation level.")
@@ -108,7 +101,7 @@
 (defun frimacs-boot-indent-line ()
   "Indent current line."
   (if (eql (char-syntax (char-before)) ?w)
-      (frimacs-boot-interactive-complete)
+      (complete-symbol nil)
     (let ((computed-indent (+ (frimacs-find-previous-indent)
                               (frimacs-compute-indent-increment
                                frimacs-boot-indentation-increase-regexp

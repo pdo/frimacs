@@ -106,13 +106,6 @@
              (match-end 0)
              frimacs-standard-names-and-abbreviations)))
 
-(defun frimacs-input-interactive-complete ()
-  "Complete symbol at point."
-  (interactive)
-  (if (and (boundp 'company-mode) company-mode)
-      (company-complete)
-    (complete-symbol nil)))
-
 (defvar frimacs-input-indentation-increase-regexp
   "\\(^[[:blank:]]*if\\|else$\\|repeat$\\|==$\\)"
   "When to increase next line's indentation level.")
@@ -120,7 +113,7 @@
 (defun frimacs-input-indent-line ()
   "Indent current line."
   (if (eql (char-syntax (char-before)) ?w)
-      (frimacs-input-interactive-complete)
+      (complete-symbol nil)
     (let ((computed-indent (+ (frimacs-find-previous-indent)
                               (frimacs-compute-indent-increment
                                frimacs-input-indentation-increase-regexp

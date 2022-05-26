@@ -82,13 +82,6 @@
              (match-end 0)
              frimacs-standard-names)))
 
-(defun frimacs-spad-interactive-complete ()
-  "Use `company-complete' if available to complete symbol at point."
-  (interactive)
-  (if (and (boundp 'company-mode) company-mode)
-      (company-complete)
-    (complete-symbol nil)))
-
 (defvar frimacs-spad-indentation-increase-regexp
   "\\(^[[:blank:]]*if\\|else$\\|repeat$\\|==$\\|:$\\|with\\|add\\)"
   "Increase next line's indentation level if matched.")
@@ -96,7 +89,7 @@
 (defun frimacs-spad-indent-line ()
   "Indent current line."
   (if (eql (char-syntax (char-before)) ?w)
-      (frimacs-spad-interactive-complete)
+      (complete-symbol nil)
     (let ((computed-indent (+ (frimacs-find-previous-indent)
                               (frimacs-compute-indent-increment
                                frimacs-spad-indentation-increase-regexp

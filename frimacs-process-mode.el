@@ -928,18 +928,11 @@ Optionally FILTER may be set to `:dirs' or `:files'."
     (beginning-of-line)
     (looking-at "[[:blank:]]*)[[:word:]]+[[:blank:]]+")))
 
-(defun frimacs-process-interactive-complete ()
-  "Use `company-complete' if available to complete symbol at point."
-  (interactive)
-  (if (and (boundp 'company-mode) company-mode)
-      (company-complete)
-    (complete-symbol nil)))
-
 (defun frimacs-process-indent-line ()
   "Indent current line."
   (if (or (frimacs-process-is-command-line)
           (eql (char-syntax (char-before)) ?w))
-      (frimacs-process-interactive-complete)
+      (complete-symbol nil)
     (indent-relative-first-indent-point)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
