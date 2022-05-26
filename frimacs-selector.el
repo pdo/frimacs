@@ -20,6 +20,7 @@
 ;;; Code:
 
 (require 'cl-lib)
+(require 'frimacs-buffer-menu)
 
 (defcustom frimacs-selector-help-buffer-name "*Frimacs Selector Help*"
   "Frimacs selector help buffer name."
