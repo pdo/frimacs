@@ -10,8 +10,10 @@
 
 ;; This file is not part of GNU Emacs.
 
+;; SPDX-License-Identifier: MIT
+
 ;; This file is free software, see the LICENCE file in this directory
-;; for copying terms.
+;; for more information.
 
 ;;; Commentary:
 

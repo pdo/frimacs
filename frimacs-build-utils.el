@@ -6,8 +6,10 @@
 ;; Keywords: FriCAS, computer algebra, extensions, tools
 ;; URL: https://github.com/pdo/frimacs
 ;;
+;; SPDX-License-Identifier: MIT
+;;
 ;; This file is free software, see the LICENCE file in this directory
-;; for copying terms.
+;; for more information.
 ;;
 ;; Some useful functions to help build and maintain the frimacs
 ;; package.
