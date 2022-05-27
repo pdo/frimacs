@@ -114,7 +114,7 @@
 
 ;;; Internal helper functions
 ;;;
-(defun org-babel-fricas--starify-name (str)
+(defun ob-fricas--starify-name (str)
   "Ensure STR is a valid buffer name by wrapping with asterisks if necessary."
   (let ((name str))
     (unless (eql (aref str 0) ?*)
@@ -123,18 +123,18 @@
       (setq name (concat name "*")))
     name))
 
-;;; Org framework functions -- functions called by Org-mode
+;;; Org framework functions -- functions invoked by Org-mode activity
 ;;;
-(defun org-babel-fricas-initiate-session (session params)
+(defun ob-fricas-initiate-session (session params)
   "Start a FriCAS session for use by org-babel.
 
 Use SESSION name and PARAMS parameters."
-  ;;(message "org-babel-fricas-initiate-session\n %S\n %S" session params)
+  ;;(message "ob-fricas-initiate-session\n %S\n %S" session params)
   (if (string= session "none")
       session
     (let ((session-name
            (if (stringp session)
-               (org-babel-fricas--starify-name session)
+               (ob-fricas--starify-name session)
              frimacs-process-repl-buffer-name)))
       (let ((frimacs-process-repl-buffer-name session-name)) ; dynamic binding
         (if (org-babel-comint-buffer-livep session-name)
@@ -142,11 +142,11 @@ Use SESSION name and PARAMS parameters."
           (frimacs-process-start frimacs-process-program)
           session-name)))))
 
-(defun org-babel-fricas-var-to-fricas (val)
+(defun ob-fricas-var-to-fricas (val)
   "Convert elisp VAL into a FriCAS value."
-  ;;(message "org-babel-fricas-var-to-fricas\n %S" val)
+  ;;(message "ob-fricas-var-to-fricas\n %S" val)
   (if (listp val)
-      (concat "[" (mapconcat #'org-babel-fricas-var-to-fricas val ", ") "]")
+      (concat "[" (mapconcat #'ob-fricas-var-to-fricas val ", ") "]")
     (format "%S" val)))
 
 (defun org-babel-variable-assignments:fricas (params)
@@ -158,7 +158,7 @@ Use SESSION name and PARAMS parameters."
                          params)))
     (mapcar
      (lambda (pair)
-       (format "%S := %s" (car pair) (org-babel-fricas-var-to-fricas (cdr pair))))
+       (format "%S := %s" (car pair) (ob-fricas-var-to-fricas (cdr pair))))
      vars)))
 
 (defun org-babel-expand-body:fricas (body params)
@@ -174,20 +174,20 @@ Use SESSION name and PARAMS parameters."
 Execute BODY in the context given by PARAMS.
 This function is called by `org-babel-execute-src-block'."
   ;;(message "org-babel-execute:fricas\n %S\n %S" body params)
-  (let ((session (org-babel-fricas-initiate-session
+  (let ((session (ob-fricas-initiate-session
                   (cdr (assoc :session params)) params))
         (block-read (cdr (assoc :block-read params))))
     (if (or (equal block-read "yes")
             (and (equal block-read "auto")
-                 (org-babel-fricas--body-needs-block-read body)))
-        (org-babel-fricas--execute-by-block-read session body params)
-      (org-babel-fricas--execute-line-by-line session body params))))
+                 (ob-fricas--body-needs-block-read body)))
+        (ob-fricas--execute-by-block-read session body params)
+      (ob-fricas--execute-line-by-line session body params))))
 
-(defun org-babel-fricas--body-needs-block-read (body)
+(defun ob-fricas--body-needs-block-read (body)
   "Return non-nil if BODY needs a block read."
   (string-match "^[[:space:]]+[[:graph:]]" body))
 
-(defun org-babel-fricas--execute-by-block-read (session body params)
+(defun ob-fricas--execute-by-block-read (session body params)
   "Execute BODY in context of PARAMS using SESSION."
   (let* ((results-value (string-match "\\<value\\>" (cdr (assoc :results params))))
          (show-prompt (and (not results-value)
@@ -199,7 +199,7 @@ This function is called by `org-babel-execute-src-block'."
       (insert (org-babel-expand-body:fricas body params))
       (write-region (point-min) (point-max) tmp-filename))
     (let ((session-name (if (stringp session)
-                            (org-babel-fricas--starify-name session)
+                            (ob-fricas--starify-name session)
                           frimacs-process-repl-buffer-name)))
       (let ((frimacs-process-repl-buffer-name session-name)) ; dynamic binding
         (with-frimacs-process-query-buffer
@@ -219,7 +219,7 @@ This function is called by `org-babel-execute-src-block'."
                (delete-region (point) (point-max)))))
          (buffer-substring (point-min) (point-max)))))))
 
-(defun org-babel-fricas--execute-line-by-line (session body params)
+(defun ob-fricas--execute-line-by-line (session body params)
   "Execute BODY in context of PARAMS using SESSION."
   (let* ((results-value (string-match "\\<value\\>" (cdr (assoc :results params))))
          (show-prompt (and (not results-value)
@@ -228,7 +228,7 @@ This function is called by `org-babel-execute-src-block'."
                           (equal (cdr (assoc :show-input params)) "yes")))
          (lines (split-string (org-babel-expand-body:fricas body params) "\n"))
          (session-name (if (stringp session)
-                           (org-babel-fricas--starify-name session)
+                           (ob-fricas--starify-name session)
                          frimacs-process-repl-buffer-name))
          (frimacs-process-repl-buffer-name session-name)) ; dynamic binding
     (with-frimacs-process-query-buffer
