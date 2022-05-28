@@ -5,8 +5,8 @@
 ;; Author: Paul Onions <paul.onions@acm.org>
 ;; Keywords: FriCAS, computer algebra, extensions, tools
 ;; URL: https://github.com/pdo/frimacs
-
 ;; Package-Requires: ((emacs "26.1"))
+;; Version: 1.0
 
 ;; This file is not part of GNU Emacs.
 
