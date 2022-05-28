@@ -23,6 +23,7 @@
 
 (require 'cl-lib)
 (require 'frimacs-buffer-menu)
+(require 'frimacs-process-mode)
 
 (defcustom frimacs-selector-help-buffer-name "*Frimacs Selector Help*"
   "Frimacs selector help buffer name."
@@ -96,7 +97,7 @@ is chosen."
   (let ((buf (get-buffer frimacs-process-repl-buffer-name)))
     (if buf
         (switch-to-buffer buf)
-      (message "FriCAS REPL not available, try M-x run-fricas"))))
+      (message frimacs-process-not-running-message))))
 
 (defun frimacs-find-recent-buffer (mode)
   "Find a recently used buffer of the given MODE."

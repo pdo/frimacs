@@ -37,7 +37,7 @@ You may also want to run "C-u M-x byte-recompile-directory" to compile
 all the source files to bytecode.
 
 Once the package is installed, files ending in .input, and .spad are
-put into the appropriate mode, and there is an "M-x run-fricas"
+put into the appropriate mode, and there is an "M-x frimacs-run-fricas"
 command available to start an interactive FriCAS session.  Look into
 the Frimacs menu that appears in these buffers to discover further
 capabilities of the system.

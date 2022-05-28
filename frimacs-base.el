@@ -401,7 +401,7 @@ region then use its limits instead of trying to find our own."
     ;; Menu items
     (define-key map [menu-bar frimacs-menu] (cons "Frimacs" menu-map))
     (define-key menu-map [frimacs-menu-run-fricas]
-      '(menu-item "Run FriCAS" run-fricas))
+      '(menu-item "Run FriCAS" frimacs-run-fricas))
     (define-key menu-map [frimacs-menu-start-hyperdoc]
       '(menu-item "Start HyperDoc" frimacs-process-start-hyperdoc))
     (define-key menu-map [frimacs-menu-separator-4]

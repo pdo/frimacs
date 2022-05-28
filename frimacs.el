@@ -38,10 +38,10 @@
 ;; about these types and their operations.
 
 ;; Once the package is installed, files ending in .input, and .spad
-;; are put into the appropriate mode, and there is an "M-x run-fricas"
-;; command available to start an interactive FriCAS session.  Look
-;; into the Frimacs menu that appears in these buffers to discover
-;; further capabilities of the system.
+;; are put into the appropriate mode, and there is an "M-x
+;; frimacs-run-fricas" command available to start an interactive
+;; FriCAS session.  Look into the Frimacs menu that appears in these
+;; buffers to discover further capabilities of the system.
 
 ;; Note: this Emacs package (frimacs) can be considered to be the
 ;; successor to the axiom-environment package.  Currently frimacs

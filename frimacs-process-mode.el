@@ -152,7 +152,7 @@ No need to change it if `mml2svg' inside your PATH."
   "Keymap for `frimacs-process-mode'.")
 
 (defvar frimacs-process-not-running-message
-  "FriCAS not running, try M-x run-fricas")
+  "FriCAS not running, try M-x frimacs-run-fricas")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Utility macros
@@ -1175,7 +1175,7 @@ If no INPUT provided it tries to show previous input."
 		    (insert "\n")))))))))
 
 ;;;###autoload
-(defun run-fricas (cmd)
+(defun frimacs-run-fricas (cmd)
   "Launch FriCAS using the given command line.
 
 The name of the buffer is given by variable
