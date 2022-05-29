@@ -1,12 +1,12 @@
-;;; frimacs-company.el --- A Frimacs backend for Company  -*- lexical-binding: t -*-
+;;; company-frimacs.el --- A Frimacs backend for Company  -*- lexical-binding: t -*-
 
 ;; Copyright (C) 2022 Paul Onions
 
 ;; Author: Paul Onions <paul.onions@acm.org>
 ;; Keywords: FriCAS, computer algebra, extensions, tools
 ;; URL: https://github.com/pdo/frimacs
-
-;; Package-Requires: ((emacs "26.1") (company "0.9") (frimacs "20220525"))
+;; Package-Requires: ((emacs "26.1") (company "0.9") (frimacs "1.0"))
+;; Version: 1.0
 
 ;; This file is not part of GNU Emacs.
 
@@ -24,17 +24,21 @@
 
 (require 'cl-lib)
 
+(require 'company)
+
 (require 'frimacs-help-mode)
 (require 'frimacs-process-mode)
 (require 'frimacs-input-mode)
 (require 'frimacs-spad-mode)
   
-(defun frimacs-company-backend (command &optional arg &rest ignored)
+;;;###autoload
+(defun company-frimacs (command &optional arg &rest ignored)
   "A company backend for frimacs.
 See company documentation for COMMAND, ARG and IGNORED syntax."
-  (interactive
-   (company-begin-backend 'frimacs-company-backend))
+  (interactive (list 'interactive))
   (cl-case command
+    (interactive
+     (company-begin-backend 'company-frimacs))
     (prefix
      (and (or (eql major-mode 'frimacs-process-mode)
               (eql major-mode 'frimacs-input-mode)
@@ -63,8 +67,8 @@ See company documentation for COMMAND, ARG and IGNORED syntax."
        (let ((src-info (frimacs-process-find-constructor-source arg)))
          (cons (cl-first src-info) (cl-second src-info)))))))
 
-(add-to-list 'company-backends 'frimacs-company-backend)
+(add-to-list 'company-backends 'company-frimacs)
 
-(provide 'frimacs-company)
+(provide 'company-frimacs)
 
-;;; frimacs-company.el ends here
+;;; company-frimacs.el ends here
