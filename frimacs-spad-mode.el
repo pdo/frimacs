@@ -77,12 +77,20 @@
 (defvar frimacs-spad-mode-hook nil
   "Hook for customizing `frimacs-spad-mode'.")
 
-(defun frimacs-spad-complete-symbol ()
-  "Attempt to complete the FriCAS symbol at point."
+(defun frimacs-spad-capf-complete ()
+  "Completion-at-point function for `frimacs-spad-mode'."
   (and (looking-back "[[:word:]]+" nil t)
        (list (match-beginning 0)
              (match-end 0)
-             frimacs-standard-names)))
+             frimacs-standard-names
+             :annotation-function #'frimacs-spad-capf-annotate)))
+
+(defun frimacs-spad-capf-annotate (completion)
+  "Completion-at-point annotation function for `frimacs-spad-mode'."
+  (cl-case (car (frimacs-process-constructor-type completion))
+    (:package  " Pkg")
+    (:domain   " Dom")
+    (:category " Cat")))
 
 (defvar frimacs-spad-indentation-increase-regexp
   "\\(^[[:blank:]]*if\\|else$\\|repeat$\\|==$\\|:$\\|with\\|add\\)"
@@ -137,7 +145,7 @@
   (make-local-variable 'adaptive-fill-regexp)
   (make-local-variable 'fill-paragraph-function)
   (setq indent-line-function #'frimacs-spad-indent-line)
-  (setq completion-at-point-functions (list #'frimacs-spad-complete-symbol))
+  (setq completion-at-point-functions (list #'frimacs-spad-capf-complete))
   (setq syntax-propertize-function #'frimacs-spad-syntax-propertize)
   (setq adaptive-fill-first-line-regexp "[[:blank:]]*\\(\\+\\+\\|--\\)[[:blank:]]?")
   (setq adaptive-fill-regexp "[[:blank:]]*\\(\\+\\+\\|--\\)[[:blank:]]?")

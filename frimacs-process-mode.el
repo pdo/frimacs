@@ -897,7 +897,7 @@ Optionally FILTER may be set to `:dirs' or `:files'."
                 partial-end
                 (frimacs-process-list-filenames dir-path filter)))))))
 
-(defun frimacs-process-complete-command-line ()
+(defun frimacs-process-capf-complete-command ()
   "Attempt to complete a FriCAS command (e.g. \")cd <dirname>\")."
   (let ((filter nil))
     (save-excursion
@@ -914,12 +914,20 @@ Optionally FILTER may be set to `:dirs' or `:files'."
                           :all))))
     (and filter (frimacs-process-complete-command-filename filter))))
 
-(defun frimacs-process-complete-symbol ()
-  "Attempt to complete the FriCAS symbol at point."
+(defun frimacs-process-capf-complete ()
+  "Completion-at-point function for `frimacs-process-mode'."
   (and (looking-back "[[:word:]]+" nil t)
        (list (match-beginning 0)
              (match-end 0)
-             frimacs-standard-names-and-abbreviations)))
+             frimacs-standard-names-and-abbreviations
+             :annotation-function #'frimacs-process-capf-annotate)))
+
+(defun frimacs-process-capf-annotate (completion)
+  "Completion-at-point annotation function for `frimacs-process-mode'."
+  (cl-case (car (frimacs-process-constructor-type completion))
+    (:package  " Pkg")
+    (:domain   " Dom")
+    (:category " Cat")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Indenting functions
@@ -966,8 +974,8 @@ Optionally FILTER may be set to `:dirs' or `:files'."
   (make-local-variable 'comint-input-filter-functions)
   (make-local-variable 'comint-output-filter-functions)
   (setq indent-line-function #'frimacs-process-indent-line)
-  (setq completion-at-point-functions (list #'frimacs-process-complete-command-line
-                                            #'frimacs-process-complete-symbol))
+  (setq completion-at-point-functions (list #'frimacs-process-capf-complete-command
+                                            #'frimacs-process-capf-complete))
   (setq frimacs-menu-compile-buffer-enable nil)
   (setq frimacs-menu-compile-file-enable t)
   (setq frimacs-menu-read-buffer-enable nil)
