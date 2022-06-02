@@ -144,9 +144,6 @@ TYPE should be either :package, :domain or :category."
 (defvar frimacs-build-ob-fricas-filespecs
   '("LICENCE" "extras/ob-fricas.el"))
 
-(defvar frimacs-build-company-frimacs-filespecs
-  '("LICENCE" "extras/company-frimacs.el"))
-
 (defun frimacs-build-emacs-package-dir (pkg-filespecs src-dir dst-dir)
   (let ((default-directory src-dir))
     (dolist (filespec pkg-filespecs)
@@ -224,24 +221,6 @@ of those specified in the `package-archives' variable."
     (frimacs-build-emacs-package src-dir (cdr (assoc archive package-archives))
                                  pkg-filespecs pkg-name pkg-ver)))
 
-(defun frimacs-build-company-frimacs-package (src-dir archive pkg-ver)
-  "Build and upload the company-frimacs Emacs package.
-
-Specifying project source directory, package archive name and
-package version string.  The package archive name should be one
-of those specified in the `package-archives' variable."
-  (interactive (frimacs-build-interactive-args))
-  (let* ((pkg-name "company-frimacs")
-         (pkg-defn `(define-package ,pkg-name ,pkg-ver
-                      "A frimacs backend for company-mode."
-                      ((frimacs ,pkg-ver))))
-         (pkg-filespecs (cons (concat pkg-name "-pkg.el")
-                              frimacs-build-company-frimacs-filespecs))
-         (default-directory src-dir))
-    (write-region (format "%S" pkg-defn) nil (concat pkg-name "-pkg.el"))
-    (frimacs-build-emacs-package src-dir (cdr (assoc archive package-archives))
-                                 pkg-filespecs pkg-name pkg-ver)))
-
 (defun frimacs-build-all-emacs-packages (src-dir archive pkg-ver)
   "Build and upload all frimacs project packages.
 
@@ -252,8 +231,7 @@ of those specified in the `package-archives' variable.
 All packages will have the same version number."
   (interactive (frimacs-build-interactive-args))
   (frimacs-build-frimacs-package src-dir archive pkg-ver)
-  (frimacs-build-ob-fricas-package src-dir archive pkg-ver)
-  (frimacs-build-company-frimacs-package src-dir archive pkg-ver))
+  (frimacs-build-ob-fricas-package src-dir archive pkg-ver))
 
 (defun frimacs-upgrade-all-emacs-packages (src-dir archive pkg-ver)
   "Build, upload and install all frimacs project packages.
@@ -268,13 +246,10 @@ generated packages will have the same version number."
   (message "Building new packages")
   (frimacs-build-frimacs-package src-dir archive pkg-ver)
   (frimacs-build-ob-fricas-package src-dir archive pkg-ver)
-  (frimacs-build-company-frimacs-package src-dir archive pkg-ver)
   (let ((installed-frimacs-pkg
          (cadr (assoc 'frimacs package-alist)))
         (installed-ob-fricas-pkg
          (cadr (assoc 'ob-fricas package-alist)))
-        (installed-company-frimacs-pkg
-         (cadr (assoc 'company-frimacs package-alist)))
         (updated-frimacs-pkg
          (package-desc-create :name 'frimacs
                               :version (frimacs-build-parse-version-string pkg-ver)
@@ -284,17 +259,8 @@ generated packages will have the same version number."
          (package-desc-create :name 'ob-fricas
                               :version (frimacs-build-parse-version-string pkg-ver)
                               :kind 'tar
-                              :archive archive))
-        (updated-company-frimacs-pkg
-         (package-desc-create :name 'company-frimacs
-                              :version (frimacs-build-parse-version-string pkg-ver)
-                              :kind 'tar
                               :archive archive)))
     (message "Removing installed packages")
-    (when installed-company-frimacs-pkg
-      (message (concat "Removing company-frimacs "
-                       (format "%s" (package-desc-version installed-company-frimacs-pkg))))
-      (package-delete installed-company-frimacs-pkg))
     (when installed-ob-fricas-pkg
       (message (concat "Removing ob-fricas "
                        (format "%s" (package-desc-version installed-ob-fricas-pkg))))
@@ -310,9 +276,6 @@ generated packages will have the same version number."
     (message (concat "Installing ob-fricas "
                      (format "%s" (package-desc-version updated-ob-fricas-pkg))))
     (package-install updated-ob-fricas-pkg)
-    (message (concat "Installing company-frimacs "
-                     (format "%s" (package-desc-version updated-company-frimacs-pkg))))
-    (package-install updated-company-frimacs-pkg)
     (message "All frimacs packages installed")))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

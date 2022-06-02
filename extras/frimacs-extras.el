@@ -39,10 +39,6 @@
 (with-eval-after-load 'ob
   (require 'ob-fricas))
 
-;; Load company-frimacs if/when company-mode is available
-(with-eval-after-load 'company
-  (require 'company-frimacs))
-
 ;; A useful shortcut
 (defalias 'run-fricas #'frimacs-run-fricas)
 
