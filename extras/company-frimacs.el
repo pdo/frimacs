@@ -20,6 +20,13 @@
 ;; Backend routines to support company-mode name completion in frimacs
 ;; buffers.
 
+;; To enable this extension put
+;;
+;;  (require 'company-frimacs)
+;;
+;; in your ~/.emacs initialisation file.
+;;
+
 ;;; Code:
 
 (require 'cl-lib)
@@ -31,7 +38,6 @@
 (require 'frimacs-input-mode)
 (require 'frimacs-spad-mode)
   
-;;;###autoload
 (defun company-frimacs (command &optional arg &rest ignored)
   "A company backend for frimacs.
 See company documentation for COMMAND, ARG and IGNORED syntax."
@@ -43,7 +49,9 @@ See company documentation for COMMAND, ARG and IGNORED syntax."
      (and (or (eql major-mode 'frimacs-process-mode)
               (eql major-mode 'frimacs-input-mode)
               (eql major-mode 'frimacs-spad-mode))
-          (company-grab-symbol)))
+          (and (looking-back "[[:word:]]+" nil t)
+               (buffer-substring-no-properties
+                (match-beginning 0) (match-end 0)))))
     (candidates
      (cl-remove-if-not
       (lambda (c) (string-prefix-p arg c))
@@ -52,9 +60,9 @@ See company documentation for COMMAND, ARG and IGNORED syntax."
         frimacs-standard-names-and-abbreviations)))
     (annotation
      (cl-case (car (frimacs-process-constructor-type arg))
-       (:package  " [P]")
-       (:domain   " [D]")
-       (:category " [C]")))
+       (:package  " [Pkg]")
+       (:domain   " [Dom]")
+       (:category " [Cat]")))
     (doc-buffer
      (cond ((not (get-buffer frimacs-process-repl-buffer-name))
             nil)
@@ -67,7 +75,7 @@ See company documentation for COMMAND, ARG and IGNORED syntax."
        (let ((src-info (frimacs-process-find-constructor-source arg)))
          (cons (cl-first src-info) (cl-second src-info)))))))
 
-(add-to-list 'company-backends 'company-frimacs)
+(add-to-list 'company-backends #'company-frimacs)
 
 (provide 'company-frimacs)
 
