@@ -19,6 +19,7 @@
 
 ;;; Code:
 
+(require 'cl-lib)
 (require 'frimacs-base)
 (require 'frimacs-help-mode)
 (require 'frimacs-process-mode)
@@ -107,14 +108,30 @@
        (list (match-beginning 0)
              (match-end 0)
              frimacs-standard-names-and-abbreviations
-             :annotation-function #'frimacs-input-capf-annotate)))
+             :annotation-function #'frimacs-input-capf-annotation
+             :company-doc-buffer #'frimacs-input-capf-doc-buffer
+             :company-location #'frimacs-input-capf-location)))
 
-(defun frimacs-input-capf-annotate (completion)
+(defun frimacs-input-capf-annotation (completion)
   "Completion-at-point annotation function for `frimacs-input-mode'."
   (cl-case (car (frimacs-process-constructor-type completion))
     (:package  " Pkg")
     (:domain   " Dom")
     (:category " Cat")))
+
+(defun frimacs-input-capf-doc-buffer (completion)
+  "Completion-at-point doc-buffer function for `frimacs-input-mode'."
+  (cond ((not (get-buffer frimacs-process-repl-buffer-name))
+         nil)
+        ((frimacs-process-verify-operation-name completion)
+         (frimacs-process-document-operation completion))
+        ((frimacs-process-verify-constructor-name-or-abbrev completion)
+         (frimacs-process-document-constructor completion))))
+
+(defun frimacs-input-capf-location (completion)
+  (when (frimacs-process-verify-constructor-name-or-abbrev completion)
+    (let ((src-info (frimacs-process-find-constructor-source completion)))
+      (cons (cl-first src-info) (cl-second src-info)))))
 
 (defvar frimacs-input-indentation-increase-regexp
   "\\(^[[:blank:]]*if\\|else$\\|repeat$\\|==$\\)"

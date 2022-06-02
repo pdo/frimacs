@@ -920,14 +920,30 @@ Optionally FILTER may be set to `:dirs' or `:files'."
        (list (match-beginning 0)
              (match-end 0)
              frimacs-standard-names-and-abbreviations
-             :annotation-function #'frimacs-process-capf-annotate)))
+             :annotation-function #'frimacs-process-capf-annotation
+             :company-doc-buffer #'frimacs-process-capf-doc-buffer
+             :company-location #'frimacs-process-capf-location)))
 
-(defun frimacs-process-capf-annotate (completion)
+(defun frimacs-process-capf-annotation (completion)
   "Completion-at-point annotation function for `frimacs-process-mode'."
   (cl-case (car (frimacs-process-constructor-type completion))
     (:package  " Pkg")
     (:domain   " Dom")
     (:category " Cat")))
+
+(defun frimacs-process-capf-doc-buffer (completion)
+  "Completion-at-point doc-buffer function for `frimacs-process-mode'."
+  (cond ((not (get-buffer frimacs-process-repl-buffer-name))
+         nil)
+        ((frimacs-process-verify-operation-name completion)
+         (frimacs-process-document-operation completion))
+        ((frimacs-process-verify-constructor-name-or-abbrev completion)
+         (frimacs-process-document-constructor completion))))
+
+(defun frimacs-process-capf-location (completion)
+  (when (frimacs-process-verify-constructor-name-or-abbrev completion)
+    (let ((src-info (frimacs-process-find-constructor-source completion)))
+      (cons (cl-first src-info) (cl-second src-info)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;; Indenting functions
