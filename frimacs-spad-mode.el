@@ -55,6 +55,12 @@
   (concat "\\<" (regexp-opt frimacs-spad-keyword-names) "\\>")
   "Regular expression for SPAD keywords.")
 
+(defvar frimacs-spad-imenu-generic-expression
+  '(("Package" "^)abbrev[[:space:]]+package[[:space:]]+\\([[:word:]]+.*$\\)" 1)
+    ("Domain" "^)abbrev[[:space:]]+domain[[:space:]]+\\([[:word:]]+.*$\\)" 1)
+    ("Category" "^)abbrev[[:space:]]+category[[:space:]]+\\([[:word:]]+.*$\\)" 1))
+  "Setting for `imenu-generic-expression' in `frimacs-spad-mode'.")
+
 (defvar frimacs-spad-doc-comment-face 'frimacs-spad-doc-comment)
 (defvar frimacs-spad-keyword-face     'frimacs-spad-keyword)
 (defvar frimacs-spad-package-face     'frimacs-package-name)
@@ -167,6 +173,7 @@
   (setq adaptive-fill-first-line-regexp "[[:blank:]]*\\(\\+\\+\\|--\\)[[:blank:]]?")
   (setq adaptive-fill-regexp "[[:blank:]]*\\(\\+\\+\\|--\\)[[:blank:]]?")
   (setq fill-paragraph-function #'frimacs-fill-paragraph)
+  (setq imenu-generic-expression frimacs-spad-imenu-generic-expression)
   (setq frimacs-menu-compile-buffer-enable t)
   (setq frimacs-menu-compile-file-enable t)
   (setq frimacs-menu-read-buffer-enable nil)
