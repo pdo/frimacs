@@ -125,10 +125,11 @@
 
 ;;; Org framework functions -- functions invoked by Org-mode activity
 ;;;
-(defun ob-fricas-initiate-session (session params)
+(defun ob-fricas-initiate-session (session _params)
   "Start a FriCAS session for use by org-babel.
 
-Use SESSION name and PARAMS parameters."
+Use SESSION name and PARAMS parameters (the latter currently not
+used)."
   ;;(message "ob-fricas-initiate-session\n %S\n %S" session params)
   (if (string= session "none")
       session
