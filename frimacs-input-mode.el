@@ -47,9 +47,12 @@
   "A FriCAS documentation comment.")
 
 (defvar frimacs-input-keyword-names
-  (list "has"
-        "if" "then" "else"
-        "for" "in" "by" "while" "repeat" "return" "break"))
+  (list "add" "and" "break" "catch" "define"
+        "do" "else" "export" "finally" "for" "from"
+        "generate" "goto" "if" "in" "is"
+        "isnt" "macro" "or" "pretend"
+        "repeat" "return" "rule" "then" "try" "until"
+        "where" "while" "with" "yield"))
 
 (defvar frimacs-input-keywords-regexp
   (concat "\\<" (regexp-opt frimacs-input-keyword-names) "\\>")

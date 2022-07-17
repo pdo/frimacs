@@ -47,9 +47,12 @@
   "A SPAD documentation comment.")
 
 (defvar frimacs-spad-keyword-names
-  (list "add" "with" "has" "is"
-        "if" "then" "else"
-        "for" "in" "by" "while" "repeat" "return" "break"))
+  (list "add" "and" "break" "by" "case" "catch" "default" "define"
+        "do" "else" "exquo" "export" "finally" "for" "free" "from"
+        "generate" "goto" "has" "if" "import" "in" "inline" "is"
+        "isnt" "iterate" "local" "macro" "mod" "not" "or" "pretend"
+        "quo" "rem" "repeat" "return" "rule" "then" "try" "until"
+        "where" "while" "with" "yield"))
 
 (defvar frimacs-spad-keywords-regexp
   (concat "\\<" (regexp-opt frimacs-spad-keyword-names) "\\>")
