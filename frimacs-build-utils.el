@@ -289,7 +289,8 @@ generated packages will have the same version number."
     "frimacs-spad-mode"
     "frimacs-boot-mode"
     "frimacs-buffer-menu"
-    "frimacs-selector"))
+    "frimacs-selector"
+    "frimacs-domain-explorer"))
 
 (defun frimacs-build-compile ()
   "Compile all files in `frimacs-build-source-dir' directory."

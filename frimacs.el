@@ -65,6 +65,7 @@
 (require 'frimacs-boot-mode)
 (require 'frimacs-buffer-menu)
 (require 'frimacs-selector)
+(require 'frimacs-domain-explorer)
 
 ;; Automatically put .input, .spad and .boot files into the correct major mode.
 ;;;###autoload
