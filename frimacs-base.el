@@ -300,7 +300,7 @@ otherwise return 0."
   (save-excursion
     (beginning-of-line)
     (let ((limit (point)))
-      (re-search-backward "[[:graph:]]")
+      (re-search-backward "[[:graph:]]" nil t)
       (beginning-of-line)
       (if (re-search-forward regexp limit t)
           step
@@ -313,7 +313,7 @@ otherwise return 0."
       (end-of-line)
       (let ((eol (point)))
         (beginning-of-line)
-        (setq match (re-search-forward "[[:blank:]]*\\([[:graph:]]\\|$\\)" eol))))
+        (setq match (re-search-forward "[[:blank:]]*\\([[:graph:]]\\|$\\)" eol t))))
     (and match (< (point) (match-beginning 1)))))
 
 (defun frimacs-set-current-indent (amount)
