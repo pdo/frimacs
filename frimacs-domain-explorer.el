@@ -41,10 +41,15 @@
 (require 'frimacs-process-mode)
 (require 'frimacs-help-mode)
 
-(defcustom frimacs-domex-ui-bufname "*Frimacs Domain Explorer*"
-  "Name of the buffer in which to display the domain explorer."
+(defcustom frimacs-domex-ui-bufname "*Frimacs Domain Explorer %s*"
+  "Name of the buffer in which to display the domain explorer.
+
+The %s will be replaced with a session ID number, obtained from
+'frimacs-domex-ui-next-id'."
   :type 'string
   :group 'frimacs)
+
+(defvar frimacs-domex-ui-next-id 1)
 
 (defcustom frimacs-domex-query-bufname "*Frimacs Domain Explorer Query*"
   "Name of the buffer in which to capture a domain explorer query."
@@ -85,7 +90,7 @@
 (defvar frimacs-domex-mode-hook nil
   "Hook for customizing `frimacs-domex-mode'.")
 
-(defun frimacs-domex-show-implementation (&rest ignore)
+(defun frimacs-domex-show-implementation (&rest _ignore)
   "Get implementation details of specified domain."
   (if (not (get-buffer frimacs-process-repl-buffer-name))
       (message frimacs-process-not-running-message)
@@ -104,9 +109,10 @@
         (widget-value-set frimacs-domex-content-widget "")
         (widget-value-set frimacs-domex-content-widget text)))))
 
-(defun frimacs-domex-prepare-buffer ()
-  "Setup the Frimacs domain explorer buffer."
-  (with-current-buffer (get-buffer-create frimacs-domex-ui-bufname)
+(defun frimacs-domex-prepare-buffer (id)
+  "Setup the domain explorer buffer, named according to the given ID."
+  (with-current-buffer (get-buffer-create
+                        (format frimacs-domex-ui-bufname id))
     (erase-buffer)
     (remove-overlays)
     (frimacs-domex-mode)
@@ -154,10 +160,12 @@
   "Show the Frimacs domain explorer."
   (interactive)
   (bury-buffer (get-buffer-create frimacs-domex-query-bufname))
-  (frimacs-domex-prepare-buffer)
-  (let ((popup (display-buffer frimacs-domex-ui-bufname)))
-    (when (and popup frimacs-select-popup-windows)
-      (select-window popup))))
+  (let ((id frimacs-domex-ui-next-id))
+    (setq frimacs-domex-ui-next-id (+ id 1))
+    (frimacs-domex-prepare-buffer id)
+    (let ((popup (display-buffer (format frimacs-domex-ui-bufname id))))
+      (when (and popup frimacs-select-popup-windows)
+        (select-window popup)))))
 
 (provide 'frimacs-domain-explorer)
 
