@@ -20,12 +20,12 @@
 ;; Expects a package called FRIMACS to be available in the running
 ;; FriCAS system.  It can be built from the following source:-
 ;;
-;;   )abbrev package FRIMACS Frimacs
-;;   Frimacs: Exports == Implementation where
-;;     Exports ==> with
-;;       showOpImpSummary : (t:Type) -> Void
-;;     Implementation ==> add
-;;       showOpImpSummary(t) == showImp(t)$Lisp
+;;  )abbrev package FRIMACSX FrimacsExplorer
+;;  FrimacsExplorer(t:Type): Exports == Implementation where
+;;    Exports ==> with
+;;      showOpImpSummary : () -> Void
+;;    Implementation ==> add
+;;      showOpImpSummary() == showImp(t)$Lisp
 ;;
 ;; This is still a work-in-progress.  It is exploratory code that may
 ;; change in fundamental ways at any time.
@@ -101,7 +101,7 @@ The %s will be replaced with a session ID number, obtained from
           (erase-buffer)
           (frimacs-help-mode)
           (frimacs-process-redirect-send-command
-           (format ")lisp (|parseAndEvalToString| \"showOpImpSummary(%s)$FRIMACS\")" domain)
+           (format ")lisp (|parseAndEvalToString| \"showOpImpSummary()$FRIMACSX(%s)\")" domain)
            (current-buffer))
           (frimacs-process-make-all-clickables)
           (setq text (buffer-substring (point-min) (point-max)))))
