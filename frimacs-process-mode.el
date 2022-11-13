@@ -36,7 +36,7 @@ Must begin and end with an asterisk."
   :type 'string
   :group 'frimacs)
 
-(defcustom frimacs-process-prompt-regexp "^.*(\\([[:digit:]]+\\|NIL\\)) ->\\|^->"
+(defcustom frimacs-process-prompt-regexp "\\(^.*(\\([[:digit:]]+\\|NIL\\)) -> $\\)\\|\\(^-> $\\)"
   "Regexp to recognize prompts from FriCAS."
   :type 'regexp
   :group 'frimacs)
