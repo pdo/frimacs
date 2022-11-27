@@ -46,6 +46,11 @@ Must begin and end with an asterisk."
   :type 'regexp
   :group 'frimacs)
 
+(defcustom frimacs-process-redirect-wait 0.5
+  "Time to wait for output from a redirected command, in seconds."
+  :type 'number
+  :group 'frimacs)
+
 (defcustom frimacs-process-preamble ""
   "Initial commands to push to FriCAS."
   :type 'string
@@ -229,8 +234,9 @@ prompt in output to OUTPUT-BUFFER."
         (goto-char (process-mark proc))
         (insert-before-markers command "\n"))
       (comint-redirect-send-command command output-buffer echo-result (not display))
-      (sit-for 0.1)  ; this seems to help us capture all output reliably
+      (sit-for frimacs-process-redirect-wait)  ; try to capture all output reliably
       (while (not comint-redirect-completed)
+        (sit-for frimacs-process-redirect-wait)
         (accept-process-output proc)
         (redisplay))
       (frimacs-process-sanitize-redirected-output output-buffer)  ; clean up output text
