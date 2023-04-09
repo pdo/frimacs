@@ -1,6 +1,6 @@
 ;;; frimacs-process-mode.el --- Part of frimacs  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022 Paul Onions
+;; Copyright (C) 2022 - 2023 Paul Onions
 
 ;; Author: Paul Onions <paul.onions@acm.org>
 ;; Keywords: FriCAS, computer algebra, extensions, tools
@@ -36,7 +36,7 @@ Must begin and end with an asterisk."
   :type 'string
   :group 'frimacs)
 
-(defcustom frimacs-process-prompt-regexp "\\(^.*(\\([[:digit:]]+\\|NIL\\)) -> $\\)\\|\\(^-> $\\)"
+(defcustom frimacs-process-prompt-regexp "^%%% (\\([[:digit:]]+\\|NIL\\)) ->"
   "Regexp to recognize prompts from FriCAS."
   :type 'regexp
   :group 'frimacs)
@@ -51,7 +51,7 @@ Must begin and end with an asterisk."
   :type 'number
   :group 'frimacs)
 
-(defcustom frimacs-process-preamble ""
+(defcustom frimacs-process-preamble ")lisp (setf |$ioHook| (lambda (x arg) (if (eql x '|startPrompt|) (format t \"~&%%% \"))))"
   "Initial commands to push to FriCAS."
   :type 'string
   :group 'frimacs)
@@ -1023,10 +1023,11 @@ Optionally FILTER may be set to `:dirs' or `:files'."
                 (frimacs-process--plot)
 		(frimacs-process--show-svg)))
     (unless (equal "" frimacs-process-preamble)
+      (sit-for 0.5)
       (frimacs-process-insert-command frimacs-process-preamble))
     (setq schedule-cd-update t)
     (while schedule-cd-update
-      (sit-for 1))))
+      (sit-for 0.5))))
 
 (defun frimacs-process-start (process-cmd)
   "Start FriCAS in a buffer using the command given by PROCESS-CMD.

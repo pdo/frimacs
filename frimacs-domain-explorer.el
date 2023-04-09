@@ -1,6 +1,6 @@
 ;;; frimacs-domain-explorer.el --- Part of frimacs  -*- lexical-binding: t -*-
 
-;; Copyright (C) 2022 Paul Onions
+;; Copyright (C) 2022 - 2023 Paul Onions
 
 ;; Author: Paul Onions <paul.onions@acm.org>
 ;; Keywords: FriCAS, computer algebra, extensions, tools
@@ -17,8 +17,8 @@
 
 ;; A utility for exploring domains and their operations.
 
-;; Expects a package called FRIMACS to be available in the running
-;; FriCAS system.  It can be built from the following source:-
+;; Expects a package called FrimacsExplorer to be available in the
+;; running FriCAS system.  It can be built from the following source:-
 ;;
 ;;  )abbrev package FRIMACSX FrimacsExplorer
 ;;  FrimacsExplorer(t:Type): Exports == Implementation where
