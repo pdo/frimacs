@@ -45,7 +45,7 @@
   "Name of the buffer in which to display the domain explorer.
 
 The %s will be replaced with a session ID number, obtained from
-'frimacs-domex-ui-next-id'."
+`frimacs-domex-ui-next-id'."
   :type 'string
   :group 'frimacs)
 
