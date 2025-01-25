@@ -246,9 +246,9 @@ prompt in output to OUTPUT-BUFFER."
 (defun frimacs-process-sanitize-redirected-output (buffer)
   "Clean up redirected command's output text in BUFFER.
 
-Remove 'erase' characters and the characters they erase from all
+Remove `erase' characters and the characters they erase from all
 lines of output.  This is necessary when FriCAS is run with
-'sman' enabled."
+`sman' enabled."
   (with-current-buffer buffer
     (save-excursion
       (goto-char (1+ (point-min)))
