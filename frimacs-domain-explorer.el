@@ -37,6 +37,7 @@
 
 (require 'cl-lib)
 (require 'widget)
+(require 'wid-edit)
 (require 'frimacs-base)
 (require 'frimacs-process-mode)
 (require 'frimacs-help-mode)
