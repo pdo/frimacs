@@ -19,6 +19,8 @@
 
 ;;; Code:
 
+(require 'frimacs-base)
+
 (defcustom frimacs-buffer-menu-bufname "*Frimacs Buffer Menu*"
   "Name of the buffer in which to display the buffer menu."
   :type 'string
